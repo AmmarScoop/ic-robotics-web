@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Cpu, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { LogoMark } from "@/components/logo";
 
 const cols = [
   { title: "Programs", links: [["Robotics", "/programs"], ["Coding", "/programs"], ["AI", "/programs"], ["Competitions", "/competitions"]] },
@@ -14,9 +15,7 @@ export function Footer() {
       <div className="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2">
           <Link href="/" className="flex items-center gap-2 font-extrabold text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-grape-500 text-white">
-              <Cpu className="h-5 w-5" />
-            </span>
+            <LogoMark className="h-9 w-9" />
             <span className="text-lg">IC <span className="gradient-text">Robotics</span></span>
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-600">

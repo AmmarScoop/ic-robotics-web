@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
-import { LayoutDashboard, Inbox, Star, Newspaper, Images, LogOut, Cpu, Menu, X, ExternalLink } from "lucide-react";
+import { LayoutDashboard, Inbox, Star, Newspaper, Images, LogOut, Menu, X, ExternalLink } from "lucide-react";
+import { LogoMark } from "@/components/logo";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -32,7 +33,7 @@ export function AdminShell({ title, children }: { title: string; children: React
           open && "translate-x-0"
         )}>
           <div className="flex h-16 items-center gap-2 border-b border-slate-100 px-5 font-extrabold text-ink">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-600 to-grape-500 text-white"><Cpu className="h-4 w-4" /></span>
+            <LogoMark className="h-8 w-8" />
             IC Admin
           </div>
           <nav className="flex flex-col gap-1 p-3">

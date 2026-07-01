@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X, Cpu } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { LogoMark } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -25,9 +26,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/85 backdrop-blur-lg">
       <nav className="container-x flex h-16 items-center justify-between" aria-label="Main">
         <Link href="/" className="flex items-center gap-2 font-extrabold text-ink">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-grape-500 text-white shadow-soft">
-            <Cpu className="h-5 w-5" />
-          </span>
+          <LogoMark className="h-9 w-9" />
           <span className="text-lg">IC <span className="gradient-text">Robotics</span></span>
         </Link>
 

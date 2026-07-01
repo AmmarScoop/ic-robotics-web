@@ -1,7 +1,8 @@
 "use client";
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Cpu, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
+import { LogoMark } from "@/components/logo";
 import { Input } from "@/components/ui/input";
 import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ function LoginForm() {
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
       <div className="w-full max-w-sm">
         <div className="mb-6 flex items-center justify-center gap-2 font-extrabold text-ink">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-grape-500 text-white"><Cpu className="h-5 w-5" /></span>
+          <LogoMark className="h-9 w-9" />
           IC Robotics Admin
         </div>
         <form onSubmit={submit} className="card-surface p-7">

@@ -10,7 +10,7 @@ export function Field({
   return (
     <div>
       <Label htmlFor={htmlFor}>
-        {label} {required && <span className="text-grape-500">*</span>}
+        {label} {required && <span className="text-flag-500">*</span>}
       </Label>
       {children}
       {error && <p className="mt-1 text-xs font-medium text-red-500">{error}</p>}

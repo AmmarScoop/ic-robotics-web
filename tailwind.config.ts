@@ -1,5 +1,12 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Palette derived from the IC Robotics logo:
+ *  - brand  = the logo blues (deep #0a5ca0 · mid #489ae8 · light #95cefc/#aed5f1)
+ *  - accent = the logo yellow ring (#fff200 / #f4f24f)
+ *  - grape  = a rich indigo-blue used as the gradient partner to brand
+ *  - flag   = the logo red pop (#ff002b / #890326) for small highlights
+ */
 const config: Config = {
   darkMode: ["class"],
   content: ["./src/**/*.{ts,tsx}"],
@@ -12,38 +19,48 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#eef4ff",
-          100: "#d9e6ff",
-          200: "#bcd3ff",
-          300: "#8db6ff",
-          400: "#578dff",
-          500: "#2f66ff",
-          600: "#1746f5",
-          700: "#1236e1",
-          800: "#162eb6",
-          900: "#182d8f",
+          50: "#edf6fd",
+          100: "#d3e9fb",
+          200: "#aed5f1",
+          300: "#86c3f2",
+          400: "#4c99e3",
+          500: "#2b83db",
+          600: "#1a6cc0",
+          700: "#0a5ca0",
+          800: "#0b4a80",
+          900: "#0d3d69",
         },
         accent: {
-          50: "#fffbea",
-          100: "#fff3c4",
-          200: "#fce588",
-          300: "#fadb5f",
-          400: "#f7c948",
-          500: "#f0b429",
-          600: "#de911d",
-          700: "#cb6e17",
+          50: "#fffdea",
+          100: "#fff8b8",
+          200: "#fff180",
+          300: "#ffe94f",
+          400: "#ffde12",
+          500: "#f5c400",
+          600: "#d19a00",
+          700: "#a67400",
         },
         grape: {
-          50: "#f6f2ff",
-          100: "#ece4ff",
-          200: "#d9ccff",
-          300: "#bda4ff",
-          400: "#9f75ff",
-          500: "#8b4dff",
-          600: "#7c33f0",
-          700: "#6b23cf",
+          50: "#eaf0fb",
+          100: "#cfddf7",
+          200: "#a6bdee",
+          300: "#7897e2",
+          400: "#4a6bd2",
+          500: "#2b4fb8",
+          600: "#1a3d97",
+          700: "#122e72",
         },
-        ink: "#0d1330",
+        flag: {
+          50: "#fff0f2",
+          100: "#ffd6dc",
+          200: "#ffadb9",
+          300: "#ff7488",
+          400: "#ff3355",
+          500: "#ff002b",
+          600: "#c40021",
+          700: "#890326",
+        },
+        ink: "#0d1b34",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
@@ -53,8 +70,8 @@ const config: Config = {
         "4xl": "2rem",
       },
       boxShadow: {
-        soft: "0 10px 40px -12px rgba(23, 70, 245, 0.18)",
-        glow: "0 0 60px -10px rgba(139, 77, 255, 0.35)",
+        soft: "0 10px 40px -12px rgba(10, 92, 160, 0.20)",
+        glow: "0 0 60px -10px rgba(43, 79, 184, 0.35)",
       },
       keyframes: {
         float: {
