@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { FloatingShapes } from "@/components/floating-shapes";
 import { heroChips } from "@/lib/data";
+import { VideoBlock } from "@/components/video-block";
+import { videos } from "@/lib/videos";
 
 const badges = [
   { icon: Bot, label: "Robotics", pos: "-left-4 top-6", tone: "text-brand-600" },
@@ -58,7 +60,7 @@ export function HeroSection() {
           transition={{ duration: 0.7, delay: 0.15 }}
         >
           <div className="card-surface relative overflow-hidden p-3">
-            <MediaPlaceholder label="Watch: A day at IC Robotics" className="aspect-[4/3]" />
+            <VideoBlock src={videos.hero} label="Watch: A day at IC Robotics" className="aspect-[4/3]" />
             <div className="mt-3 grid grid-cols-3 gap-3">
               <div className="rounded-2xl bg-brand-50 p-3 text-center">
                 <LayoutDashboard className="mx-auto h-5 w-5 text-brand-600" />

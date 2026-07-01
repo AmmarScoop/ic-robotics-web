@@ -18,6 +18,8 @@ import {
   competitions, caseStudies, schoolReceives,
 } from "@/lib/data";
 import { getTestimonials } from "@/lib/content";
+import { VideoBlock } from "@/components/video-block";
+import { videos } from "@/lib/videos";
 
 export default async function HomePage() {
   const testimonials = await getTestimonials();
@@ -130,7 +132,7 @@ export default async function HomePage() {
             </div>
             <Button asChild size="lg" className="mt-8"><Link href="/contact?type=proposal">Request School Proposal</Link></Button>
           </div>
-          <MediaPlaceholder label="School program walkthrough" className="aspect-[4/3]" tone="brand" />
+          <VideoBlock src={videos.schoolWalkthrough} label="School program walkthrough" className="aspect-[4/3]" tone="brand" />
         </div>
       </section>
 

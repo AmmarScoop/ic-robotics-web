@@ -4,6 +4,8 @@ import { AssessmentForm, type LeadData } from "@/components/assessment-form";
 import { useToast } from "@/components/ui/toast";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { Reveal } from "@/components/reveal";
+import { VideoBlock } from "@/components/video-block";
+import { videos } from "@/lib/videos";
 
 export function HomeLeadSection() {
   const router = useRouter();
@@ -24,7 +26,7 @@ export function HomeLeadSection() {
           <p className="mt-4 text-slate-600">
             Answer a few quick questions and receive a personalized learning path for your child — in minutes.
           </p>
-          <MediaPlaceholder label="Personalized path preview" withPlay={false} tone="grape" className="mt-6 aspect-video" />
+          <VideoBlock src={videos.personalizedPath} label="Personalized path preview" tone="grape" className="mt-6 aspect-video" />
         </div>
         <Reveal className="p-8 sm:p-10">
           <AssessmentForm onSubmit={handleSubmit} submitLabel="Start Free Assessment" />

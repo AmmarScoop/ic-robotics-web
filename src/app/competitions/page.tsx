@@ -8,6 +8,7 @@ import { MediaPlaceholder } from "@/components/media-placeholder";
 import { Reveal } from "@/components/reveal";
 import { competitions, internationalAchievements } from "@/lib/data";
 import { getMedia } from "@/lib/content";
+import { VideoBlock } from "@/components/video-block";
 
 export const metadata: Metadata = {
   title: "Competitions — FLL, WRO, Robot Challenge & Technoxian",
@@ -89,7 +90,7 @@ export default async function CompetitionsPage() {
                     m.type === "image"
                       // eslint-disable-next-line @next/next/no-img-element
                       ? <img key={m.id} src={m.url} alt={m.caption} className="aspect-video w-full rounded-3xl border border-slate-100 object-cover" />
-                      : <MediaPlaceholder key={m.id} label={m.caption || "Video"} tone="grape" className="aspect-video" />
+                      : <VideoBlock key={m.id} src={m.url} label={m.caption || "Video"} tone="grape" className="aspect-video" />
                   ))
                 : ["Robot run", "Team huddle", "Award ceremony", "Coding sprint"].map((g, i) => (
                     <MediaPlaceholder key={g} label={g} withPlay={false} tone={i % 2 ? "grape" : "brand"} className="aspect-video" />

@@ -5,6 +5,8 @@ import { ShareButtons } from "@/components/share-buttons";
 import { Reveal } from "@/components/reveal";
 import { FloatingShapes } from "@/components/floating-shapes";
 import { portfolioDemo as p } from "@/lib/data";
+import { VideoBlock } from "@/components/video-block";
+import { videos } from "@/lib/videos";
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const name = params.slug === p.slug ? p.name : params.slug;
@@ -55,7 +57,7 @@ export default function PortfolioPage({ params }: { params: { slug: string } }) 
             <div className="card-surface p-6">
               <h2 className="flex items-center gap-2 text-xl font-bold text-ink"><PlayCircle className="h-5 w-5 text-grape-500" /> Videos</h2>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                {p.videos.map((v) => <MediaPlaceholder key={v} label={v} tone="grape" className="aspect-video" />)}
+                {p.videos.map((v, i) => <VideoBlock key={v} src={videos.portfolio[i]} label={v} tone="grape" className="aspect-video" />)}
               </div>
             </div>
           </Reveal>
