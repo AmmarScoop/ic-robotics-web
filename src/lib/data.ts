@@ -104,13 +104,15 @@ export type Competition = {
   description: string;
   countries: string;
   achievement: string;
+  /** Path (under /public) or URL of the competition logo. */
+  logo?: string;
 };
 
 export const competitions: Competition[] = [
-  { id: "fll", name: "FIRST LEGO League (FLL)", scope: "International", description: "Teams research a real-world problem, design & program an autonomous LEGO robot and pitch to judges.", countries: "110+ countries", achievement: "3× Regional Champions" },
-  { id: "wro", name: "World Robot Olympiad (WRO)", scope: "International", description: "Global robotics challenge testing design, programming and problem-solving under time pressure.", countries: "90+ countries", achievement: "Top 10 International Finish" },
-  { id: "robot-challenge", name: "Robot Challenge", scope: "International", description: "One of the biggest robotics competitions for autonomous and mobile robots.", countries: "40+ countries", achievement: "2× Category Winners" },
-  { id: "technoxian", name: "Technoxian World Championship", scope: "International", description: "World robotics championship spanning multiple robot sport categories.", countries: "50+ countries", achievement: "Gold & Silver Medalists" },
+  { id: "fll", name: "FIRST LEGO League (FLL)", scope: "International", description: "Teams research a real-world problem, design & program an autonomous LEGO robot and pitch to judges.", countries: "110+ countries", achievement: "3× Regional Champions", logo: "/logos/FLL.png" },
+  { id: "wro", name: "World Robot Olympiad (WRO)", scope: "International", description: "Global robotics challenge testing design, programming and problem-solving under time pressure.", countries: "90+ countries", achievement: "Top 10 International Finish", logo: "/logos/WRO.png" },
+  { id: "robot-challenge", name: "Robot Challenge", scope: "International", description: "One of the biggest robotics competitions for autonomous and mobile robots.", countries: "40+ countries", achievement: "2× Category Winners", logo: "/logos/IRC.png" },
+  { id: "technoxian", name: "Technoxian World Championship", scope: "International", description: "World robotics championship spanning multiple robot sport categories.", countries: "50+ countries", achievement: "Gold & Silver Medalists", logo: "/logos/Technoxian.png" },
 ];
 
 export type Story = {

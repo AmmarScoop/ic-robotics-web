@@ -7,14 +7,17 @@
 
 export const videos = {
   // Home page - big hero video
-  hero: "https://youtu.be/FdiQ7J4GSjQ?list=PLRBp0Fe2GpgnIh0AiYKh7o7HnYAej-5ph",
+  hero: "https://youtu.be/5OE_18yvDxc",
 
   // Home page - "School program walkthrough" block
-  schoolWalkthrough: "",
+  schoolWalkthrough: "https://youtube.com/shorts/M1vLufsuwaE",
 
   // Home page - "Personalized path preview" block
-  personalizedPath: "",
+  personalizedPath: "https://youtu.be/6aVts0SZFKI",
 
   // Student portfolio demo - the two video blocks (in order)
-  portfolio: ["", ""] as string[],
+  portfolio: [
+    "https://youtube.com/shorts/Oqu_0dN8jlw",
+    "https://youtube.com/shorts/l2RlHUlxM_Q",
+  ] as string[],
 };

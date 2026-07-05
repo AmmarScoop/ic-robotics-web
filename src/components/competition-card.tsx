@@ -7,7 +7,14 @@ import type { Competition } from "@/lib/data";
 export function CompetitionCard({ competition }: { competition: Competition }) {
   return (
     <article className="card-surface flex h-full flex-col overflow-hidden p-0">
-      <MediaPlaceholder label={competition.name} withPlay={false} tone="grape" className="h-40" />
+      {competition.logo ? (
+        <div className="flex h-40 items-center justify-center bg-gradient-to-br from-grape-50/60 via-white to-brand-50/60 p-5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={competition.logo} alt={`${competition.name} logo`} className="h-full w-auto max-w-[70%] object-contain" />
+        </div>
+      ) : (
+        <MediaPlaceholder label={competition.name} withPlay={false} tone="grape" className="h-40" />
+      )}
       <div className="flex flex-1 flex-col p-6">
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-bold text-ink">{competition.name}</h3>
