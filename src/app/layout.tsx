@@ -13,8 +13,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://icrobotics.example"),
   title: {
-    default: "IC Robotics Academy — Future Skills for Schools & Kids",
-    template: "%s | IC Robotics Academy",
+    default: "I.C Robotics Schools — Future Skills for Schools & Kids",
+    template: "%s | I.C Robotics Schools",
   },
   description:
     "IC Robotics helps schools and parents prepare children for the future through Robotics, Coding, AI and STEM programs, international competitions, assessments and student portfolios.",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "school robotics partnership", "kids technology academy", "robotics competitions",
   ],
   openGraph: {
-    title: "IC Robotics Academy",
+    title: "I.C Robotics Schools",
     description: "Turn your school into a future skills powerhouse.",
     type: "website",
   },

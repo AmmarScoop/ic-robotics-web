@@ -22,9 +22,10 @@ export function Footer() {
             Preparing children for the future through Robotics, Coding, AI and STEM — for schools and parents.
           </p>
           <ul className="mt-5 space-y-2 text-sm text-slate-600">
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand-500" /> hello@icrobotics.example</li>
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-brand-500" /> +20 100 000 0000</li>
-            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-brand-500" /> Cairo • Riyadh • Online</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand-500" /> info@icroboticsschools.com</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-brand-500" /> 01044424957</li>
+            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" /> Ahmed Maher, Al-Toukhy Tower, next to CIB Bank</li>
+            <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" /> Gezira El Ward Club, next to El Mohamady Restaurant</li>
           </ul>
         </div>
         {cols.map((c) => (
@@ -42,7 +43,7 @@ export function Footer() {
       </div>
       <div className="border-t border-slate-100">
         <div className="container-x flex flex-col items-center justify-between gap-3 py-5 text-xs text-slate-500 sm:flex-row">
-          <p>© {new Date().getFullYear()} IC Robotics Academy. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} I.C Robotics Schools. All rights reserved.</p>
           <p>STEM Accredited • International Competitions • School Partnerships</p>
         </div>
       </div>

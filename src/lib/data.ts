@@ -244,7 +244,7 @@ export const dashboardDemo = {
 export const portfolioDemo = {
   slug: "ahmed",
   name: "Ahmed Khaled",
-  tagline: "14 • Future AI Innovator • IC Robotics Academy",
+  tagline: "14 • Future AI Innovator • I.C Robotics Schools",
   projects: [
     { name: "Trash-Sorting AI", track: "AI", desc: "A model that sorts recyclables from a camera feed." },
     { name: "Line-Following Robot", track: "Robotics", desc: "Autonomous robot navigating a track with IR sensors." },

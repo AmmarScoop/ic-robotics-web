@@ -1,0 +1,18 @@
+IC ROBOTICS — COMPETITION LOGOS
+For each competition, do ONE of these:
+  Option 1 (easiest): drop the logo image file into the folder  public/logos/
+                      and write just its filename after the arrow (e.g. => fll.png)
+  Option 2: paste a direct image URL after the arrow (must end in .png/.jpg/.svg/.webp)
+Leave blank to keep the current placeholder. PNG with transparent background looks best.
+
+1. FIRST LEGO League (FLL)
+=>FLL.png
+
+2. World Robot Olympiad (WRO)
+=>WRO.png
+
+3. Robot Challenge
+=>IRC.png
+
+4. Technoxian World Championship
+=>Technoxian.png

@@ -1,0 +1,36 @@
+IC ROBOTICS — MEDIA LINKS
+Paste your YouTube link after each arrow (same line). Leave blank to keep the placeholder.
+YouTube, youtu.be, Vimeo, or direct .mp4 links all work. Unlisted YouTube videos are fine.
+
+=== A. VIDEO SLOTS (I will wire these into the site code) ===
+
+1. Home hero — "A day at IC Robotics" (already set, paste a new link only to replace it)
+=>https://youtu.be/5OE_18yvDxc
+
+2. Home — "School program walkthrough"
+=>https://youtube.com/shorts/M1vLufsuwaE?si=N4DF3edWLwjrm5Fl
+
+3. Home — "Personalized path preview"
+=>https://youtu.be/6aVts0SZFKI
+
+4. Student portfolio — "Robot demo run"
+=>https://youtube.com/shorts/Oqu_0dN8jlw?feature=share
+
+5. Student portfolio — "AI project walkthrough"
+=>https://youtube.com/shorts/l2RlHUlxM_Q
+
+=== B. COMPETITIONS GALLERY (up to 8, videos or images) ===
+Format: link | caption   (one per line, add or remove lines as needed)
+
+6. =>
+7. =>
+8. =>
+9. =>
+
+=== C. OPTIONAL IMAGES (paste image URLs if you have them) ===
+
+10. About page — "Our story" photo
+=>
+
+11. Blog banner images (link | article title, one per line)
+=>

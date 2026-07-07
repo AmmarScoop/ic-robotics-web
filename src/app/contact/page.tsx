@@ -41,9 +41,10 @@ export default function ContactPage() {
             <div className="mt-6 card-surface p-6">
               <h3 className="font-bold text-ink">Contact Information</h3>
               <ul className="mt-4 space-y-3 text-sm text-slate-600">
-                <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand-500" /> hello@icrobotics.example</li>
-                <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-brand-500" /> +20 100 000 0000</li>
-                <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-brand-500" /> Cairo • Riyadh • Online worldwide</li>
+                <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-brand-500" /> info@icroboticsschools.com</li>
+                <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-brand-500" /> 01044424957</li>
+                <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" /> Ahmed Maher, Al-Toukhy Tower, next to CIB Bank</li>
+                <li className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" /> Gezira El Ward Club, next to El Mohamady Restaurant</li>
               </ul>
             </div>
           </div>

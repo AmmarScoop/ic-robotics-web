@@ -1,0 +1,24 @@
+# Trusted Partners
+# ----------------
+# 1. Put each partner's PNG logo in this folder (public/partners/)
+# 2. Add one line per partner below, in this format:
+#
+#    Partner Name | logo-file.png
+#
+# The logo file name is optional — a line with just a name shows text only.
+# Lines starting with # are ignored.
+#
+# Examples (delete these and add your real partners):
+# MMC International | mmc.png
+# SKY Schools | sky-schools.png
+# Bright Future
+Sky Schools | Sky Schools.png
+Ministry of Youth and Sports | Ministry of Youth and Sports.png
+Mansoura University | Mansoura University.png
+Mansoura College British School | Mansoura College British School.png
+Mansoura College American School | Mansoura College American School.png
+Faculty of Engineering - Horus University | Faculty of Engineering - Horus University.png
+Faculty of AI - Horus University | Faculty of AI - Horus University.png
+Modern Mansoura College | Modern Mansoura College.png
+Al Wady Language Schools | Al Wady Language Schools.png
+
