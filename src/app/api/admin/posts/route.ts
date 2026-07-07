@@ -3,6 +3,8 @@ import { requireService, bad } from "@/lib/api";
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const svc = requireService();
   if ("error" in svc) return svc.error;

@@ -74,7 +74,7 @@ export function AdminShell({ title, children }: { title: string; children: React
 export function useAdminApi() {
   return {
     async list(resource: string) {
-      const r = await fetch(`/api/admin/${resource}`);
+      const r = await fetch(`/api/admin/${resource}`, { cache: "no-store" });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error || "Request failed");
       return j.data as any[];

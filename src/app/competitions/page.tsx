@@ -22,6 +22,8 @@ const journey = [
   { step: "Compete Globally", blurb: "Represent on the international stage." },
 ];
 
+export const revalidate = 60;
+
 export default async function CompetitionsPage() {
   const media = (await getMedia()).slice(0, 8);
   const national = competitions.filter((c) => c.scope === "National");

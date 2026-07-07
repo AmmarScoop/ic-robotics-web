@@ -21,6 +21,8 @@ import { getTestimonials } from "@/lib/content";
 import { VideoBlock } from "@/components/video-block";
 import { videos } from "@/lib/videos";
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   const testimonials = await getTestimonials();
   return (

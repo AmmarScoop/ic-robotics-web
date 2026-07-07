@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { requireService } from "@/lib/api";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const svc = requireService();
   if ("error" in svc) return svc.error;

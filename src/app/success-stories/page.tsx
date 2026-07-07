@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   description: "Real results from IC Robotics: school case studies (MMC, SKY Schools), student success stories, parent and school-leader testimonials and international achievements.",
 };
 
+export const revalidate = 60;
+
 export default async function SuccessStoriesPage() {
   const testimonials = await getTestimonials();
   const parents = testimonials.filter((t) => t.type === "Parent");
