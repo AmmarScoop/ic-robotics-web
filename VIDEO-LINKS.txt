@@ -5,13 +5,13 @@ YouTube, youtu.be, Vimeo, or direct .mp4 links all work. Unlisted YouTube videos
 === A. VIDEO SLOTS (I will wire these into the site code) ===
 
 1. Home hero — "A day at IC Robotics" (already set, paste a new link only to replace it)
-=>https://youtu.be/5OE_18yvDxc
+=>https://youtu.be/y0qlJRS8Da8
 
 2. Home — "School program walkthrough"
-=>https://youtube.com/shorts/M1vLufsuwaE?si=N4DF3edWLwjrm5Fl
+=>https://youtube.com/shorts/UzmtDTA0DtE?feature=share
 
 3. Home — "Personalized path preview"
-=>https://youtu.be/6aVts0SZFKI
+=>https://youtu.be/3Qhr4HXXmAM
 
 4. Student portfolio — "Robot demo run"
 =>https://youtube.com/shorts/Oqu_0dN8jlw?feature=share

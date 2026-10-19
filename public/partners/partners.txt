@@ -12,6 +12,8 @@
 # MMC International | mmc.png
 # SKY Schools | sky-schools.png
 # Bright Future
+Majesty International Schools | Majesty International Schools.png
+Damietta International Schools | Damietta International Schools.png
 Sky Schools | Sky Schools.png
 Ministry of Youth and Sports | Ministry of Youth and Sports.png
 Mansoura University | Mansoura University.png

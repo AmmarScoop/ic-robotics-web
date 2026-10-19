@@ -7,13 +7,13 @@
 
 export const videos = {
   // Home page - big hero video
-  hero: "https://youtu.be/5OE_18yvDxc",
+  hero: "https://youtu.be/y0qlJRS8Da8",
 
   // Home page - "School program walkthrough" block
-  schoolWalkthrough: "https://youtube.com/shorts/M1vLufsuwaE",
+  schoolWalkthrough: "https://youtube.com/shorts/UzmtDTA0DtE",
 
-  // Home page - "Personalized path preview" block
-  personalizedPath: "https://youtu.be/6aVts0SZFKI",
+  // Home page - "Lead the way" section (Personalized path preview)
+  personalizedPath: "https://youtu.be/3Qhr4HXXmAM",
 
   // Student portfolio demo - the two video blocks (in order)
   portfolio: [
