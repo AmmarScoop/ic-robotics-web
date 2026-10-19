@@ -7,19 +7,28 @@ import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { ShareButtons } from "@/components/share-buttons";
 import { FloatingShapes } from "@/components/floating-shapes";
-import { certificateDb } from "@/lib/data";
 
 type Result = { status: "valid" | "invalid"; id: string; name?: string; course?: string; issued?: string };
 
-export function CertificateVerify() {
+export function CertificateVerify({ eyebrow, title, sampleId }: { eyebrow: string; title: string; sampleId: string }) {
   const [id, setId] = useState("");
   const [result, setResult] = useState<Result | null>(null);
+  const [checking, setChecking] = useState(false);
 
-  function verify(e: React.FormEvent) {
+  async function verify(e: React.FormEvent) {
     e.preventDefault();
     const key = id.trim().toUpperCase();
-    const cert = certificateDb[key];
-    setResult(cert ? { status: "valid", id: key, ...cert } : { status: "invalid", id: key });
+    if (!key) return;
+    setChecking(true);
+    try {
+      const r = await fetch(`/api/certificates?id=${encodeURIComponent(key)}`, { cache: "no-store" });
+      const j = await r.json();
+      setResult(j.found ? { status: "valid", id: key, name: j.name, course: j.course, issued: j.issued } : { status: "invalid", id: key });
+    } catch {
+      setResult({ status: "invalid", id: key });
+    } finally {
+      setChecking(false);
+    }
   }
 
   return (
@@ -27,16 +36,16 @@ export function CertificateVerify() {
       <FloatingShapes />
       <div className="container-x relative max-w-2xl py-16">
         <div className="text-center">
-          <span className="eyebrow mb-4">Certificate Verification</span>
-          <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Verify An IC Robotics Certificate</h1>
-          <p className="mt-3 text-slate-600">Enter a certificate ID to confirm it&apos;s authentic. Try <button type="button" onClick={() => setId("ICR-2025-AHMED-0012")} className="font-semibold text-brand-700 underline">ICR-2025-AHMED-0012</button>.</p>
+          <span className="eyebrow mb-4">{eyebrow}</span>
+          <h1 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">{title}</h1>
+          <p className="mt-3 text-slate-600">Enter a certificate ID to confirm it&apos;s authentic.{sampleId && <> Try <button type="button" onClick={() => setId(sampleId)} className="font-semibold text-brand-700 underline">{sampleId}</button>.</>}</p>
         </div>
 
         <form onSubmit={verify} className="card-surface mt-10 p-6 sm:p-8">
           <Field label="Certificate Unique ID" htmlFor="cert-id">
             <Input id="cert-id" value={id} onChange={(e) => setId(e.target.value)} placeholder="ICR-YYYY-NAME-0000" className="uppercase" />
           </Field>
-          <Button type="submit" size="lg" className="mt-4 w-full"><Search className="h-4 w-4" /> Verify Certificate</Button>
+          <Button type="submit" size="lg" className="mt-4 w-full" disabled={checking}><Search className="h-4 w-4" /> {checking ? "Checking…" : "Verify Certificate"}</Button>
         </form>
 
         <AnimatePresence mode="wait">

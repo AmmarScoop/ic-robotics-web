@@ -9,21 +9,20 @@ import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { submitLead } from "@/lib/submit";
-import { competitions } from "@/lib/data";
 
 type Data = {
   studentName: string; parentName: string; phone: string; email: string;
   age: string; school: string; competition: string; experience: string;
 };
 
-export function CompetitionRegisterForm() {
+export function CompetitionRegisterForm({ competitions }: { competitions: { id: string; name: string }[] }) {
   const params = useSearchParams();
   const preset = params.get("competition") ?? "";
   const { toast } = useToast();
   const [done, setDone] = useState(false);
   const [data, setData] = useState<Data>({
     studentName: "", parentName: "", phone: "", email: "", age: "", school: "",
-    competition: competitions.some((c) => c.id === preset) ? preset : competitions[0].id,
+    competition: competitions.some((c) => c.id === preset) ? preset : competitions[0]?.id ?? "",
     experience: "Beginner",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof Data, string>>>({});
@@ -45,7 +44,8 @@ export function CompetitionRegisterForm() {
     const err = validate(data);
     setErrors(err);
     if (Object.keys(err).length) return;
-    submitLead("competition-registration", data);
+    const competitionName = competitions.find((c) => c.id === data.competition)?.name ?? data.competition;
+    submitLead("competition-registration", { ...data, competitionName });
     toast({ title: "Registration received!", description: "We'll contact you with next steps and training dates." });
     setDone(true);
   }

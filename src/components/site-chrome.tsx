@@ -2,8 +2,9 @@
 import { usePathname } from "next/navigation";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import type { SiteContent } from "@/lib/site-defaults";
 
-export function SiteChrome({ children }: { children: React.ReactNode }) {
+export function SiteChrome({ children, settings }: { children: React.ReactNode; settings: SiteContent["settings"] }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 
@@ -11,9 +12,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Navbar />
+      <Navbar settings={settings} />
       <main id="main">{children}</main>
-      <Footer />
+      <Footer settings={settings} />
     </>
   );
 }

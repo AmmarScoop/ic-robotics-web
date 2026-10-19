@@ -37,5 +37,8 @@ export type Lead = {
   email: string | null;
   phone: string | null;
   payload: Record<string, unknown>;
+  status?: "new" | "contacted" | "converted" | "closed";
+  notes?: string;
   created_at: string;
+  updated_at?: string;
 };

@@ -6,6 +6,7 @@ import { MediaPlaceholder } from "@/components/media-placeholder";
 import { CTASection } from "@/components/cta-section";
 import { Button } from "@/components/ui/button";
 import { getPost, getPosts } from "@/lib/content";
+import { getSection } from "@/lib/site-content";
 
 export const revalidate = 60;
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getPost(params.slug);
+  const [post, cta] = await Promise.all([getPost(params.slug), getSection("cta")]);
   if (!post) notFound();
 
   return (
@@ -53,7 +54,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <Button asChild><Link href="/child-assessment">Find your child&apos;s path</Link></Button>
         </div>
       </article>
-      <CTASection />
+      <CTASection {...cta} />
     </>
   );
 }

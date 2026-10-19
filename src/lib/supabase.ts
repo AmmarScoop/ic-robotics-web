@@ -26,5 +26,10 @@ export function getPublicClient(): SupabaseClient | null {
  */
 export function getServiceClient(): SupabaseClient | null {
   if (!url || !serviceKey) return null;
-  return createClient(url, serviceKey, { auth: { persistSession: false } });
+  return createClient(url, serviceKey, {
+    auth: { persistSession: false },
+    // Admin reads must always be live. Without this, Next.js caches these fetches inside
+    // route handlers (even with dynamic = "force-dynamic"), so the dashboard showed stale data.
+    global: { fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, { ...init, cache: "no-store" }) },
+  });
 }

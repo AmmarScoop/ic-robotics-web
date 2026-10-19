@@ -20,12 +20,14 @@ export function CTASection({
           <FloatingShapes />
           <div className="relative mx-auto max-w-2xl">
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{title}</h2>
-            <p className="mt-4 text-base text-white/85">{subtitle}</p>
+            {subtitle && <p className="mt-4 text-base text-white/85">{subtitle}</p>}
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <Button asChild variant="accent" size="lg"><Link href={primary.href}>{primary.label}</Link></Button>
-              <Button asChild size="lg" className="bg-white/15 text-white backdrop-blur hover:bg-white/25">
-                <Link href={secondary.href}>{secondary.label}</Link>
-              </Button>
+              {primary?.label && <Button asChild variant="accent" size="lg"><Link href={primary.href}>{primary.label}</Link></Button>}
+              {secondary?.label && (
+                <Button asChild size="lg" className="bg-white/15 text-white backdrop-blur hover:bg-white/25">
+                  <Link href={secondary.href}>{secondary.label}</Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>

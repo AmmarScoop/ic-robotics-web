@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SiteChrome } from "@/components/site-chrome";
 import { ToastProvider } from "@/components/ui/toast";
+import { getSection } from "@/lib/site-content";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,31 +11,36 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://icrobotics.example"),
-  title: {
-    default: "I.C Robotics Schools — Future Skills for Schools & Kids",
-    template: "%s | I.C Robotics Schools",
-  },
-  description:
-    "IC Robotics helps schools and parents prepare children for the future through Robotics, Coding, AI and STEM programs, international competitions, assessments and student portfolios.",
-  keywords: [
-    "robotics for kids", "coding for kids", "AI for schools", "STEM programs",
-    "school robotics partnership", "kids technology academy", "robotics competitions",
-  ],
-  openGraph: {
-    title: "I.C Robotics Schools",
-    description: "Turn your school into a future skills powerhouse.",
-    type: "website",
-  },
-};
+export const revalidate = 300;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getSection("settings");
+  return {
+    metadataBase: new URL("https://icroboticsschools.com"),
+    title: {
+      default: s.siteTitle,
+      template: `%s | ${s.copyrightName || "I.C Robotics Schools"}`,
+    },
+    description: s.siteDescription,
+    keywords: [
+      "robotics for kids", "coding for kids", "AI for schools", "STEM programs",
+      "school robotics partnership", "kids technology academy", "robotics competitions",
+    ],
+    openGraph: {
+      title: s.copyrightName || s.siteTitle,
+      description: s.siteDescription,
+      type: "website",
+    },
+  };
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSection("settings");
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen font-sans">
         <ToastProvider>
-          <SiteChrome>{children}</SiteChrome>
+          <SiteChrome settings={settings}>{children}</SiteChrome>
         </ToastProvider>
       </body>
     </html>

@@ -5,8 +5,8 @@ import { SectionHeading } from "@/components/section-heading";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { CTASection } from "@/components/cta-section";
 import { Reveal } from "@/components/reveal";
-import { caseStudies, internationalAchievements } from "@/lib/data";
 import { getTestimonials } from "@/lib/content";
+import { getSiteContent } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Success Stories — School Case Studies & Student Wins",
@@ -16,24 +16,21 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function SuccessStoriesPage() {
-  const testimonials = await getTestimonials();
+  const [testimonials, content] = await Promise.all([getTestimonials(), getSiteContent()]);
+  const p = content.stories;
   const parents = testimonials.filter((t) => t.type === "Parent");
   const leaders = testimonials.filter((t) => t.type === "Principal");
   const students = testimonials.filter((t) => t.type === "Student");
 
   return (
     <>
-      <PageHero
-        eyebrow="Success Stories"
-        title="Real Schools. Real Students. Real Impact."
-        subtitle="Case studies and testimonials from the schools, parents and students who built their future with IC Robotics."
-      />
+      <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle} />
 
       {/* School case studies */}
       <section className="container-x py-16">
-        <SectionHeading eyebrow="School Case Studies" title="How schools transformed with IC Robotics" />
+        <SectionHeading eyebrow={p.caseStudies.eyebrow} title={p.caseStudies.title} subtitle={p.caseStudies.subtitle} />
         <div className="mt-12 space-y-8">
-          {caseStudies.map((c) => (
+          {content.caseStudies.items.map((c) => (
             <Reveal key={c.id}>
               <div className="card-surface overflow-hidden p-0">
                 <div className="flex flex-col gap-1 bg-gradient-to-r from-brand-600 to-grape-600 p-7 text-white sm:flex-row sm:items-center sm:justify-between">
@@ -64,7 +61,7 @@ export default async function SuccessStoriesPage() {
       {/* Student stories */}
       <section className="bg-gradient-to-b from-white to-brand-50/40 py-16">
         <div className="container-x">
-          <SectionHeading eyebrow="Student Success Stories" title="Students who found their path" />
+          <SectionHeading eyebrow={p.students.eyebrow} title={p.students.title} subtitle={p.students.subtitle} />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {(students.length ? students : testimonials).slice(0, 3).map((t) => <TestimonialCard key={t.id} story={t} />)}
           </div>
@@ -75,11 +72,11 @@ export default async function SuccessStoriesPage() {
       <section className="container-x py-16">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
-            <SectionHeading eyebrow="Parent Testimonials" title="What parents say" center={false} />
+            <SectionHeading eyebrow={p.parents.eyebrow} title={p.parents.title} subtitle={p.parents.subtitle} center={false} />
             <div className="mt-8 grid gap-6">{parents.map((t) => <TestimonialCard key={t.id} story={t} />)}</div>
           </div>
           <div>
-            <SectionHeading eyebrow="School Leaders" title="What principals say" center={false} />
+            <SectionHeading eyebrow={p.leaders.eyebrow} title={p.leaders.title} subtitle={p.leaders.subtitle} center={false} />
             <div className="mt-8 grid gap-6">{leaders.map((t) => <TestimonialCard key={t.id} story={t} />)}</div>
           </div>
         </div>
@@ -88,9 +85,9 @@ export default async function SuccessStoriesPage() {
       {/* International achievements */}
       <section className="bg-gradient-to-b from-brand-50/40 to-white py-16">
         <div className="container-x">
-          <SectionHeading eyebrow="International Achievements" title="On the world stage" />
+          <SectionHeading eyebrow={p.achievements.eyebrow} title={p.achievements.title} subtitle={p.achievements.subtitle} />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {internationalAchievements.map((a, i) => (
+            {content.achievements.items.map((a, i) => (
               <Reveal key={a} delay={i * 0.05}>
                 <div className="flex items-center gap-3 card-surface p-5">
                   <Medal className="h-6 w-6 shrink-0 text-accent-500" />
@@ -102,7 +99,7 @@ export default async function SuccessStoriesPage() {
         </div>
       </section>
 
-      <CTASection />
+      <CTASection {...content.cta} />
     </>
   );
 }

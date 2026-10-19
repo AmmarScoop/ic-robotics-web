@@ -4,35 +4,38 @@ import { PageHero } from "@/components/page-hero";
 import { DashboardCard } from "@/components/dashboard-card";
 import { Reveal } from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
-import { dashboardDemo as d } from "@/lib/data";
+import { getSection } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Student Dashboard Demo — Track Every Learner's Progress",
   description: "A demo of the IC Robotics student dashboard: levels, achievements, attendance, projects, certificates, badges, points and competition history.",
 };
 
-export default function StudentDashboardPage() {
+export const revalidate = 300;
+
+export default async function StudentDashboardPage() {
+  const d = await getSection("studentDashboard");
   return (
     <>
-      <PageHero eyebrow="Student Dashboard" title="Every Student's Progress, Beautifully Tracked" subtitle="A live demo of what students, parents and schools see inside IC Robotics." />
+      <PageHero eyebrow={d.hero.eyebrow} title={d.hero.title} subtitle={d.hero.subtitle} />
 
       <section className="container-x py-14">
         <Reveal>
           <div className="card-surface flex flex-col items-start gap-6 p-7 sm:flex-row sm:items-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-600 to-grape-500 text-2xl font-extrabold text-white">AK</div>
+            <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-brand-600 to-grape-500 text-2xl font-extrabold text-white">{d.initials}</div>
             <div className="flex-1">
               <h2 className="text-2xl font-extrabold text-ink">{d.student}</h2>
               <p className="text-brand-700">{d.level}</p>
             </div>
             <div className="flex gap-6">
-              <div className="text-center"><p className="flex items-center justify-center gap-1 text-2xl font-extrabold text-accent-500"><Zap className="h-5 w-5" />{d.points.toLocaleString()}</p><p className="text-xs text-slate-500">Points</p></div>
+              <div className="text-center"><p className="flex items-center justify-center gap-1 text-2xl font-extrabold text-accent-500"><Zap className="h-5 w-5" />{Number(d.points).toLocaleString()}</p><p className="text-xs text-slate-500">Points</p></div>
               <div className="text-center"><p className="flex items-center justify-center gap-1 text-2xl font-extrabold text-brand-600"><Flame className="h-5 w-5" />{d.attendance}%</p><p className="text-xs text-slate-500">Attendance</p></div>
             </div>
           </div>
         </Reveal>
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          <DashboardCard label="Current Level" value="6" hint={d.level} />
+          <DashboardCard label="Current Level" value={d.levelNumber} hint={d.level} />
           <DashboardCard label="Completion" value={`${d.completion}%`} hint="Program milestones" />
           <DashboardCard label="Achievements" value={d.achievements.length} hint="Unlocked" />
           <DashboardCard label="Certificates" value={d.certificates.length} hint="Verified" />
@@ -56,8 +59,8 @@ export default function StudentDashboardPage() {
             <div className="card-surface p-6">
               <h3 className="flex items-center gap-2 font-bold text-ink"><FolderKanban className="h-5 w-5 text-brand-500" /> Projects</h3>
               <ul className="mt-3 space-y-2">
-                {d.projects.map((p) => (
-                  <li key={p.name} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2 text-sm">
+                {d.projects.map((p, i) => (
+                  <li key={p.name + i} className="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2 text-sm">
                     <span className="font-semibold text-ink">{p.name}</span>
                     <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${p.status === "Completed" ? "bg-emerald-50 text-emerald-600" : "bg-amber-50 text-amber-600"}`}>{p.status}</span>
                   </li>

@@ -7,6 +7,7 @@ import { Menu, X, Sparkles, ArrowRight } from "lucide-react";
 import { LogoMark } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { SiteContent } from "@/lib/site-defaults";
 
 const links = [
   { href: "/", label: "Home" },
@@ -19,7 +20,7 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
-export function Navbar() {
+export function Navbar({ settings }: { settings: SiteContent["settings"] }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
@@ -51,9 +52,9 @@ export function Navbar() {
         <Link href="/" className="group flex items-center gap-2.5 font-extrabold text-ink">
           <motion.span whileHover={{ rotate: -6, scale: 1.06 }} transition={{ type: "spring", stiffness: 300, damping: 15 }} className="relative">
             <span className="absolute -inset-1 rounded-full bg-brand-400/20 opacity-0 blur transition-opacity group-hover:opacity-100" />
-            <LogoMark className="relative h-9 w-9" />
+            <LogoMark className="relative h-9 w-9" src={settings.logo} />
           </motion.span>
-          <span className="text-lg tracking-tight">IC <span className="gradient-text">Robotics</span></span>
+          <span className="text-lg tracking-tight">{settings.brandFirst} <span className="gradient-text">{settings.brandSecond}</span></span>
         </Link>
 
         <div
@@ -86,10 +87,10 @@ export function Navbar() {
         </div>
 
         <div className="hidden items-center gap-2 xl:flex">
-          <Button asChild variant="ghost" size="sm"><Link href="/contact?type=demo">Book Free Demo</Link></Button>
+          <Button asChild variant="ghost" size="sm"><Link href={settings.navSecondary.href}>{settings.navSecondary.label}</Link></Button>
           <Button asChild size="sm" className="group">
-            <Link href="/contact?type=proposal">
-              <Sparkles className="h-4 w-4" /> Request Proposal
+            <Link href={settings.navPrimary.href}>
+              <Sparkles className="h-4 w-4" /> {settings.navPrimary.label}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
@@ -134,8 +135,8 @@ export function Navbar() {
                 );
               })}
               <div className="mt-3 flex flex-col gap-2">
-                <Button asChild variant="outline"><Link href="/contact?type=demo" onClick={() => setOpen(false)}>Book Free Demo</Link></Button>
-                <Button asChild><Link href="/contact?type=proposal" onClick={() => setOpen(false)}><Sparkles className="h-4 w-4" /> Request School Proposal</Link></Button>
+                <Button asChild variant="outline"><Link href={settings.navSecondary.href} onClick={() => setOpen(false)}>{settings.navSecondary.label}</Link></Button>
+                <Button asChild><Link href={settings.navPrimary.href} onClick={() => setOpen(false)}><Sparkles className="h-4 w-4" /> {settings.navPrimary.label}</Link></Button>
               </div>
             </div>
           </motion.div>

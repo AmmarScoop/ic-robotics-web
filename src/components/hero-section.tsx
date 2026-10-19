@@ -3,11 +3,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Bot, Code2, Sparkles, Trophy, LayoutDashboard, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MediaPlaceholder } from "@/components/media-placeholder";
 import { FloatingShapes } from "@/components/floating-shapes";
-import { heroChips } from "@/lib/data";
 import { VideoBlock } from "@/components/video-block";
-import { videos } from "@/lib/videos";
+import type { SiteContent } from "@/lib/site-defaults";
 
 const badges = [
   { icon: Bot, label: "Robotics", pos: "-left-4 top-6", tone: "text-brand-600" },
@@ -16,7 +14,7 @@ const badges = [
   { icon: Trophy, label: "Competitions", pos: "-right-4 bottom-8", tone: "text-accent-600" },
 ];
 
-export function HeroSection() {
+export function HeroSection({ hero, video }: { hero: SiteContent["home"]["hero"]; video: string }) {
   return (
     <section className="relative overflow-hidden">
       <FloatingShapes />
@@ -26,20 +24,19 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="eyebrow mb-5">Future Skills for Schools & Kids</span>
+          <span className="eyebrow mb-5">{hero.eyebrow}</span>
           <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            Turn Your School Into a <span className="gradient-text">Future Skills Powerhouse</span>
+            {hero.title} {hero.titleHighlight && <span className="gradient-text">{hero.titleHighlight}</span>}
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-            IC Robotics helps schools build tomorrow&apos;s innovators through hands-on Robotics, Coding, AI and STEM
-            programs, international competitions, and measurable student progress.
+            {hero.subtitle}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg"><Link href="/contact?type=proposal">Request School Proposal</Link></Button>
-            <Button asChild variant="outline" size="lg"><Link href="/contact?type=demo">Book Free School Demo</Link></Button>
+            <Button asChild size="lg"><Link href={hero.primary.href}>{hero.primary.label}</Link></Button>
+            <Button asChild variant="outline" size="lg"><Link href={hero.secondary.href}>{hero.secondary.label}</Link></Button>
           </div>
           <ul className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-2">
-            {heroChips.map((chip, i) => (
+            {hero.chips.map((chip, i) => (
               <motion.li
                 key={chip}
                 initial={{ opacity: 0, y: 10 }}
@@ -60,7 +57,7 @@ export function HeroSection() {
           transition={{ duration: 0.7, delay: 0.15 }}
         >
           <div className="card-surface relative overflow-hidden p-3">
-            <VideoBlock src={videos.hero} label="Watch: A day at IC Robotics" className="aspect-[4/3]" />
+            <VideoBlock src={video} label={hero.videoLabel} className="aspect-[4/3]" />
             <div className="mt-3 grid grid-cols-3 gap-3">
               <div className="rounded-2xl bg-brand-50 p-3 text-center">
                 <LayoutDashboard className="mx-auto h-5 w-5 text-brand-600" />

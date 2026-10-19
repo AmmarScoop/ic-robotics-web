@@ -1,6 +1,7 @@
 // Public read layer. Reads managed content from Supabase when configured,
 // and gracefully falls back to the bundled mock data so the site always renders.
-import { getPublicClient, isSupabaseConfigured } from "@/lib/supabase";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import { getCachedPublicClient as getPublicClient } from "@/lib/site-content";
 import { testimonials as mockTestimonials, blogPosts as mockPosts } from "@/lib/data";
 import type { Testimonial, Post, MediaItem } from "@/lib/types";
 

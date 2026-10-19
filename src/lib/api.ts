@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import * as nextCache from "next/cache";
 import { getServiceClient } from "@/lib/supabase";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -18,4 +19,15 @@ export function requireService(): { client: SupabaseClient } | { error: NextResp
 
 export function bad(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
+}
+
+/** Refresh every public page after an admin edit (content, reviews, articles, media). */
+export function revalidateSite() {
+  const { revalidateTag, revalidatePath } = nextCache;
+  try {
+    revalidateTag("site-content");
+    revalidatePath("/", "layout");
+  } catch {
+    // Revalidation is best-effort; pages still refresh on their own schedule.
+  }
 }

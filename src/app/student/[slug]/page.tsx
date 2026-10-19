@@ -4,11 +4,11 @@ import { MediaPlaceholder } from "@/components/media-placeholder";
 import { ShareButtons } from "@/components/share-buttons";
 import { Reveal } from "@/components/reveal";
 import { FloatingShapes } from "@/components/floating-shapes";
-import { portfolioDemo as p } from "@/lib/data";
+import { getSection } from "@/lib/site-content";
 import { VideoBlock } from "@/components/video-block";
-import { videos } from "@/lib/videos";
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const p = await getSection("portfolio");
   const name = params.slug === p.slug ? p.name : params.slug;
   return {
     title: `${name} — Student Portfolio`,
@@ -18,7 +18,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 
 const trackTone: Record<string, string> = { Robotics: "brand", Coding: "accent", AI: "grape" };
 
-export default function PortfolioPage({ params }: { params: { slug: string } }) {
+export default async function PortfolioPage({ params }: { params: { slug: string } }) {
+  const p = await getSection("portfolio");
   const name = params.slug === p.slug ? p.name : params.slug.charAt(0).toUpperCase() + params.slug.slice(1);
   return (
     <>
@@ -40,7 +41,7 @@ export default function PortfolioPage({ params }: { params: { slug: string } }) 
         <Reveal><h2 className="flex items-center gap-2 text-xl font-bold text-ink"><FolderKanban className="h-5 w-5 text-brand-500" /> Projects</h2></Reveal>
         <div className="mt-6 grid gap-6 md:grid-cols-3">
           {p.projects.map((proj, i) => (
-            <Reveal key={proj.name} delay={i * 0.06}>
+            <Reveal key={proj.name + i} delay={i * 0.06}>
               <article className="card-surface overflow-hidden p-0">
                 <MediaPlaceholder label={proj.track} withPlay={false} tone={(trackTone[proj.track] as any) ?? "brand"} className="h-36" />
                 <div className="p-5">
@@ -57,7 +58,7 @@ export default function PortfolioPage({ params }: { params: { slug: string } }) 
             <div className="card-surface p-6">
               <h2 className="flex items-center gap-2 text-xl font-bold text-ink"><PlayCircle className="h-5 w-5 text-grape-500" /> Videos</h2>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                {p.videos.map((v, i) => <VideoBlock key={v} src={videos.portfolio[i]} label={v} tone="grape" className="aspect-video" />)}
+                {p.videos.map((v, i) => <VideoBlock key={v.label + i} src={v.url} label={v.label} tone="grape" className="aspect-video" />)}
               </div>
             </div>
           </Reveal>

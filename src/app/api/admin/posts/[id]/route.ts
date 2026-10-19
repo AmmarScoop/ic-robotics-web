@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireService, bad } from "@/lib/api";
+import { requireService, bad, revalidateSite } from "@/lib/api";
 
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   const svc = requireService();
@@ -11,6 +11,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     updated_at: new Date().toISOString(),
   }).eq("id", params.id).select().single();
   if (error) return bad(error.message, 500);
+  revalidateSite();
   return NextResponse.json({ data });
 }
 
@@ -19,5 +20,6 @@ export async function DELETE(_req: Request, { params }: { params: { id: string }
   if ("error" in svc) return svc.error;
   const { error } = await svc.client.from("posts").delete().eq("id", params.id);
   if (error) return bad(error.message, 500);
+  revalidateSite();
   return NextResponse.json({ ok: true });
 }

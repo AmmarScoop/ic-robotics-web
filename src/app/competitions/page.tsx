@@ -6,8 +6,8 @@ import { CompetitionCard } from "@/components/competition-card";
 import { CTASection } from "@/components/cta-section";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { Reveal } from "@/components/reveal";
-import { competitions, internationalAchievements } from "@/lib/data";
 import { getMedia } from "@/lib/content";
+import { getSiteContent } from "@/lib/site-content";
 import { VideoBlock } from "@/components/video-block";
 
 export const metadata: Metadata = {
@@ -15,29 +15,21 @@ export const metadata: Metadata = {
   description: "IC Robotics students compete nationally and internationally in FLL, WRO, Robot Challenge and Technoxian. Explore our competition journey, achievements and awards.",
 };
 
-const journey = [
-  { step: "Discover", blurb: "Students join competition-ready program tracks." },
-  { step: "Train", blurb: "Coaching, mock rounds and mentor feedback." },
-  { step: "Qualify", blurb: "Compete nationally to earn a place." },
-  { step: "Compete Globally", blurb: "Represent on the international stage." },
-];
-
 export const revalidate = 60;
 
 export default async function CompetitionsPage() {
-  const media = (await getMedia()).slice(0, 8);
+  const [allMedia, content] = await Promise.all([getMedia(), getSiteContent()]);
+  const media = allMedia.slice(0, 8);
+  const p = content.competitions;
+  const competitions = p.items;
   const national = competitions.filter((c) => c.scope === "National");
   const international = competitions.filter((c) => c.scope === "International");
   return (
     <>
-      <PageHero
-        eyebrow="Competitions"
-        title="Where Students Compete On The World Stage"
-        subtitle="From national qualifiers to international championships — we prepare, coach and take students all the way."
-      />
+      <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle} />
 
       <section className="container-x py-16">
-        <SectionHeading eyebrow="International Competitions" title="Global championships we compete in" center={false} />
+        <SectionHeading eyebrow={p.international.eyebrow} title={p.international.title} subtitle={p.international.subtitle} center={false} />
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {(international.length ? international : competitions).map((c) => <CompetitionCard key={c.id} competition={c} />)}
         </div>
@@ -45,7 +37,7 @@ export default async function CompetitionsPage() {
 
       {national.length > 0 && (
         <section className="container-x py-4">
-          <SectionHeading eyebrow="National Competitions" title="National qualifiers & leagues" center={false} />
+          <SectionHeading eyebrow={p.national.eyebrow} title={p.national.title} subtitle={p.national.subtitle} center={false} />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {national.map((c) => <CompetitionCard key={c.id} competition={c} />)}
           </div>
@@ -55,13 +47,13 @@ export default async function CompetitionsPage() {
       {/* Competition journey */}
       <section className="bg-gradient-to-b from-white to-brand-50/40 py-16">
         <div className="container-x">
-          <SectionHeading eyebrow="Competition Journey" title="From classroom to championship" />
+          <SectionHeading eyebrow={p.journey.eyebrow} title={p.journey.title} subtitle={p.journey.subtitle} />
           <div className="mt-12 grid gap-6 md:grid-cols-4">
-            {journey.map((j, i) => (
-              <Reveal key={j.step} delay={i * 0.08}>
+            {p.journey.steps.map((j, i) => (
+              <Reveal key={j.title + i} delay={i * 0.08}>
                 <div className="card-surface h-full p-6">
                   <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-grape-500 text-sm font-bold text-white">{i + 1}</span>
-                  <h3 className="mt-3 font-bold text-ink">{j.step}</h3>
+                  <h3 className="mt-3 font-bold text-ink">{j.title}</h3>
                   <p className="mt-1 text-sm text-slate-600">{j.blurb}</p>
                 </div>
               </Reveal>
@@ -74,9 +66,9 @@ export default async function CompetitionsPage() {
       <section className="container-x py-16">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
-            <SectionHeading eyebrow="Student Achievements" title="International Awards" center={false} />
+            <SectionHeading eyebrow={p.awards.eyebrow} title={p.awards.title} subtitle={p.awards.subtitle} center={false} />
             <ul className="mt-8 space-y-3">
-              {internationalAchievements.map((a) => (
+              {content.achievements.items.map((a) => (
                 <li key={a} className="flex items-center gap-3 card-surface p-4">
                   <Medal className="h-5 w-5 shrink-0 text-accent-500" />
                   <span className="text-sm font-semibold text-ink">{a}</span>
@@ -85,7 +77,7 @@ export default async function CompetitionsPage() {
             </ul>
           </div>
           <div>
-            <SectionHeading eyebrow="Gallery" title="Moments from the arena" center={false} />
+            <SectionHeading eyebrow={p.gallery.eyebrow} title={p.gallery.title} subtitle={p.gallery.subtitle} center={false} />
             <div className="mt-8 grid grid-cols-2 gap-4">
               {media.length > 0
                 ? media.map((m) => (
@@ -102,7 +94,7 @@ export default async function CompetitionsPage() {
         </div>
       </section>
 
-      <CTASection title="Want your students on the podium?" primary={{ label: "Register Interest", href: "/competition-registration" }} secondary={{ label: "Request School Proposal", href: "/contact?type=proposal" }} />
+      <CTASection {...p.cta} />
     </>
   );
 }

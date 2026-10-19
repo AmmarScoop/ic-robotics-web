@@ -9,6 +9,7 @@ import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import type { MediaItem } from "@/lib/types";
+import { ImageField } from "@/components/admin/fields";
 
 const blank: Partial<MediaItem> = { type: "image", url: "", caption: "", tags: "" };
 
@@ -25,7 +26,9 @@ export default function MediaPage() {
   useEffect(() => { load(); /* eslint-disable-next-line */ }, []);
 
   async function save(e: React.FormEvent) {
-    e.preventDefault(); setSaving(true);
+    e.preventDefault();
+    if (!editing.url) { toast({ title: "Add an image or link first" }); return; }
+    setSaving(true);
     try { await api.create("media", editing); toast({ title: "Added to library" }); setOpen(false); setEditing(blank); await load(); }
     catch (e: any) { toast({ title: "Error", description: e.message }); }
     finally { setSaving(false); }
@@ -67,13 +70,15 @@ export default function MediaPage() {
             </div>
           </div>
         ))}
-        {items.length === 0 && !err && <div className="col-span-full flex flex-col items-center rounded-3xl border border-dashed border-slate-200 p-12 text-slate-400"><Images className="mb-2 h-8 w-8" /> Library is empty — add a photo or video URL.</div>}
+        {items.length === 0 && !err && <div className="col-span-full flex flex-col items-center rounded-3xl border border-dashed border-slate-200 p-12 text-slate-400"><Images className="mb-2 h-8 w-8" /> Library is empty — upload a photo or add a video link.</div>}
       </div>
 
       <Modal open={open} title="Add media" onClose={() => setOpen(false)}>
         <form onSubmit={save} className="grid gap-4">
           <Field label="Type" htmlFor="m-type"><Select id="m-type" value={editing.type} onChange={(e) => setEditing((s) => ({ ...s, type: e.target.value as any }))}><option value="image">Image</option><option value="video">Video</option></Select></Field>
-          <Field label="URL" htmlFor="m-url" required><Input id="m-url" value={editing.url} onChange={(e) => setEditing((s) => ({ ...s, url: e.target.value }))} placeholder="https://…" required /></Field>
+          {editing.type === "image"
+            ? <ImageField label="Image" value={editing.url ?? ""} onChange={(url) => setEditing((s) => ({ ...s, url }))} />
+            : <Field label="Video link (YouTube, Vimeo or .mp4)" htmlFor="m-url" required><Input id="m-url" value={editing.url} onChange={(e) => setEditing((s) => ({ ...s, url: e.target.value }))} placeholder="https://…" required /></Field>}
           <Field label="Caption" htmlFor="m-cap"><Input id="m-cap" value={editing.caption} onChange={(e) => setEditing((s) => ({ ...s, caption: e.target.value }))} /></Field>
           <Field label="Tags (comma separated)" htmlFor="m-tags"><Input id="m-tags" value={editing.tags} onChange={(e) => setEditing((s) => ({ ...s, tags: e.target.value }))} placeholder="gallery, competition" /></Field>
           <Button type="submit" disabled={saving}>{saving ? "Saving…" : "Add to library"}</Button>

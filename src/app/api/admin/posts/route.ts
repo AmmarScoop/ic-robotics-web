@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireService, bad } from "@/lib/api";
+import { requireService, bad, revalidateSite } from "@/lib/api";
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
@@ -26,5 +26,6 @@ export async function POST(req: Request) {
     read_minutes: b.readMinutes ?? 5, published: b.published ?? true,
   }).select().single();
   if (error) return bad(error.message, 500);
+  revalidateSite();
   return NextResponse.json({ data }, { status: 201 });
 }

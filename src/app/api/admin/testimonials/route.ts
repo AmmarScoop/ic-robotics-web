@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { requireService, bad } from "@/lib/api";
+import { requireService, bad, revalidateSite } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
@@ -22,5 +22,6 @@ export async function POST(req: Request) {
     published: b.published ?? true, sort: b.sort ?? 0,
   }).select().single();
   if (error) return bad(error.message, 500);
+  revalidateSite();
   return NextResponse.json({ data }, { status: 201 });
 }

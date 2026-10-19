@@ -52,8 +52,8 @@ Copy `.env.example` → `.env.local` and set:
 
 1. Create a project at https://supabase.com.
 2. Open the **SQL Editor** and run the contents of [`supabase/schema.sql`](./supabase/schema.sql).
-   It creates four tables — `leads`, `testimonials`, `posts`, `media` — and Row Level Security
-   policies that let the public read only *published* content.
+   It creates the tables — `leads`, `site_content`, `testimonials`, `posts`, `media` — the public `site-assets`
+   storage bucket, and Row Level Security policies that let the public read only *published* content.
 3. In **Project Settings → API**, copy the URL, the `anon` key and the `service_role` key into `.env.local`.
 4. Set `ADMIN_PASSWORD` and `ADMIN_SESSION_SECRET`, then restart `npm run dev`.
 
@@ -61,17 +61,38 @@ That's it — forms now write to the `leads` table and the dashboard manages the
 
 ## Admin Dashboard (`/admin`)
 
-Protected by a password + signed session cookie (enforced in `src/middleware.ts`).
+Protected by a password + signed session cookie (enforced in `src/middleware.ts`). Log in at `/admin/login`.
 
-- **Overview** — live counts across all content.
-- **Leads** — every form submission (contact, child assessment, school readiness, competition
-  registration). Search, filter by type, and **export to CSV**.
-- **Reviews** — add / edit / delete the testimonials shown across the site; toggle published + reorder.
-- **Articles** — create / edit / delete blog posts (title, slug, audience, category, excerpt, body,
-  read time, published). Published posts appear instantly at `/blog` and `/blog/[slug]`.
-- **Media** — a photo/video library (URL + caption + tags). Images are used in the Competitions gallery.
+- **Overview** — new / this-week / total submissions, submissions by form, latest submissions, setup status, quick links.
+- **Form submissions** — every website form in one inbox (contact, competition registration, school readiness,
+  child assessment). Tabs per form, search, status & date filters, readable details, **status**
+  (New → Contacted → Converted → Closed), **internal notes**, one-click Email / Call / WhatsApp, bulk actions,
+  delete, and **CSV export** (opens correctly in Excel, Arabic included). The sidebar badge shows unhandled submissions.
+- **Site content** — edit *every* text, list, image, video and link on the public site, section by section:
+  general settings (logo, contact info, social links, nav buttons, SEO), home page videos, partner logos,
+  impact numbers, every page (Home, For Schools, Programs, Competitions, Success Stories, About, Contact, Blog…),
+  case studies, achievements, **certificates** (used by `/verify`), and the student demo pages.
+  Images upload straight to Supabase Storage. **Save & publish** updates the live site instantly;
+  **Reset to original** restores the built-in copy.
+- **Reviews**, **Articles**, **Media library** — as before (media now supports image upload).
 
-Log in at `/admin/login`. Unauthenticated `/admin/*` requests redirect to login; `/api/admin/*` return 401.
+### How editable content works
+
+- `src/lib/site-defaults.ts` holds the original copy for every section.
+- `src/lib/content-schema.ts` describes the editor form for each section (field types: text, textarea, number,
+  image, video, icon, link, select, date, lists).
+- Saved edits live in the `site_content` table (one JSON row per section) and are merged over the defaults by
+  `src/lib/site-content.ts`. Reads are cached and tagged; saving calls `revalidateTag` + `revalidatePath`, so
+  pages refresh immediately.
+- To make a new piece of copy editable: add it to `site-defaults.ts`, describe it in `content-schema.ts`, and read
+  it in the page via `getSiteContent()`.
+
+### One-time database upgrade (existing projects)
+
+Run [`supabase/migrations/002_dashboard.sql`](./supabase/migrations/002_dashboard.sql) in the Supabase SQL editor
+(the dashboard also shows a **Copy SQL** button when it's needed). It adds the `site_content` table, `status` /
+`notes` on `leads`, and the public `site-assets` storage bucket. Until it's run, the public site keeps working with
+the built-in content and forms keep saving.
 
 ## How Persistence Works
 
@@ -91,6 +112,11 @@ Log in at `/admin/login`. Unauthenticated `/admin/*` requests redirect to login;
 | `GET·POST /api/admin/testimonials` · `PUT·DELETE /api/admin/testimonials/[id]` | admin | Reviews CRUD |
 | `GET·POST /api/admin/posts` · `PUT·DELETE /api/admin/posts/[id]` | admin | Articles CRUD |
 | `GET·POST /api/admin/media` · `DELETE /api/admin/media/[id]` | admin | Media CRUD |
+| `PUT·DELETE /api/admin/leads/[id]` | admin | Update submission status / notes, delete |
+| `GET /api/admin/content` · `GET·PUT·DELETE /api/admin/content/[key]` | admin | Site content sections (read, save, reset) |
+| `POST /api/admin/upload` | admin | Upload an image to Supabase Storage (max 4 MB) |
+| `GET /api/admin/setup` | admin | Which backend pieces are ready |
+| `GET /api/certificates?id=…` | public | Certificate verification |
 
 ## Public Pages
 
@@ -167,9 +193,8 @@ ic-robotics-web/
 
 ## Suggested Next Steps
 
-1. **File uploads:** add Supabase Storage so admins can upload images directly (instead of pasting URLs).
 2. **Richer articles:** store `body` as Markdown/MDX and render with `react-markdown`.
-3. **Back the demos with data:** move `certificateDb`, student dashboard and portfolio to Supabase tables.
+3. **Real student accounts:** turn the student dashboard / portfolio demos into per-student records.
 4. **Notifications:** email the team (Resend/SendGrid) on each new lead from `POST /api/leads`.
 5. **Analytics + spam protection:** add a honeypot / rate limiting on the public lead endpoint.
 6. **CRM sync:** forward leads to HubSpot/Salesforce/Zoho from the same route handler.
