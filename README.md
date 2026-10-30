@@ -124,12 +124,13 @@ the built-in content and forms keep saving.
 |---|---|
 | `/` | Home |
 | `/for-schools` | For Schools |
-| `/programs` | Programs (Robotics / Coding / AI + roadmap) |
-| `/competitions` | Competitions (FLL, WRO, Robot Challenge, Technoxian) |
-| `/success-stories` | Success Stories (MMC & SKY case studies) |
+| `/programs` | Programs — Robotics stage tabs (KG → Secondary) with kits, plus Coding / AI and the roadmap |
+| `/competitions` | Competitions — intro, international participations first, documentation per competition (FLL, Robot Challenge, GRC…) |
+| `/success-stories` | Success Stories — every partner school (photo, location, stats) + case studies |
 | `/blog` + `/blog/[slug]` | Blog listing + article |
 | `/about` | About Us |
 | `/contact` | Contact (proposal / demo / partner / parent / competition) |
+| `/contracting-systems` | Contracting Systems — six ways to work with schools, each with a WhatsApp request button |
 | `/child-assessment` | Gamified Child Assessment Tool |
 | `/school-readiness-assessment` | School Readiness Assessment (scored) |
 | `/student-dashboard` | Student Dashboard Demo |

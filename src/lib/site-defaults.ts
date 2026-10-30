@@ -16,6 +16,33 @@ export type IconItem = { title: string; blurb: string; icon: string };
 export type Partner = { name: string; logo: string };
 export type Certificate = { id: string; name: string; course: string; issued: string; valid: boolean };
 export type TeamMember = { name: string; role: string; photo: string };
+export type Accreditation = { name: string; description: string; logo: string; link: string };
+export type Country = { name: string; code: string };
+export type Kit = {
+  name: string; image: string; ages: string; summary: string;
+  components: string[]; skills: string[]; activities: string[]; outcomes: string[]; video: string;
+};
+export type RoboticsStage = {
+  id: string; tab: string; title: string; grades: string; summary: string;
+  teach: string[]; objectives: string[]; outcomes: string[]; activities: string[];
+  photos: string[]; kits: Kit[];
+};
+export type ContractSystem = {
+  id: string; title: string; arabic: string; icon: string; summary: string;
+  details: string[]; includes: string[]; bestFor: string;
+  image: string; photos: string[]; presentation: string; buttonLabel: string; message: string;
+};
+export type Participation = {
+  competition: string; category: string; year: string; country: string; countryCode: string;
+  scope: "International" | "National"; school: string; team: string; result: string; summary: string;
+  photos: string[]; video: string; evidence: string;
+};
+export type SchoolStory = CaseStudy & {
+  location: string; photo: string; logo: string; featured: boolean; since: string;
+  programs: string[]; participation: string; achievements: string[];
+};
+export type EventBlock = { eyebrow: string; title: string; body: string; points: string[]; photos: string[] };
+export type EventEdition = { title: string; date: string; school: string; summary: string; photos: string[] };
 
 const h = (eyebrow: string, title: string, subtitle = ""): Heading => ({ eyebrow, title, subtitle });
 
@@ -27,14 +54,21 @@ export type SiteContent = {
     footerBlurb: string; footerTagline: string; copyrightName: string;
     social: { facebook: string; instagram: string; youtube: string; linkedin: string; tiktok: string };
     navPrimary: LinkButton; navSecondary: LinkButton;
+    schoolsWhatsapp: string;
   };
   videos: { hero: string; leadSection: string; partnership: string };
   partners: { title: string; items: Partner[] };
+  accreditations: Heading & { items: Accreditation[] };
+  founders: Heading & { videos: { name: string; role: string; url: string }[] };
+  global: Heading & { countries: Country[] };
   stats: { items: Stat[] };
   cta: Cta;
   home: {
     hero: Hero & { titleHighlight: string; primary: LinkButton; secondary: LinkButton; chips: string[]; videoLabel: string };
     trustIndicators: string[];
+    message: Heading & { system: IconItem[]; method: string[] };
+    ratio: { eyebrow: string; title: string; value: string; body: string; points: string[] };
+    responsibilities: Heading & { academyTitle: string; academy: string[]; schoolTitle: string; school: string[] };
     skills: Heading & { careersLabel: string; items: FutureSkill[] };
     impact: Heading;
     lead: Heading & { buttonLabel: string; note: string; videoLabel: string };
@@ -42,6 +76,16 @@ export type SiteContent = {
     partnership: Heading & { button: LinkButton; videoLabel: string };
     stories: Heading & { button: LinkButton };
     competitions: Heading;
+  };
+  events: {
+    orientation: EventBlock;
+    roboticsDay: EventBlock & { editions: EventEdition[] };
+  };
+  contracting: {
+    hero: Hero;
+    journey: { title: string; blurb: string }[];
+    systems: ContractSystem[];
+    note: string;
   };
   schools: {
     hero: Hero & { primary: LinkButton; secondary: LinkButton };
@@ -56,12 +100,15 @@ export type SiteContent = {
   programs: {
     hero: Hero;
     tracks: { key: "Robotics" | "Coding" | "AI"; title: string; blurb: string }[];
+    robotics: Heading & { stages: RoboticsStage[] };
     items: Program[];
     roadmap: Heading & { rows: typeof roadmap };
     cta: Cta;
   };
   competitions: {
     hero: Hero;
+    intro: string[];
+    participations: Heading;
     international: Heading;
     national: Heading;
     items: Competition[];
@@ -71,16 +118,19 @@ export type SiteContent = {
     cta: Cta;
   };
   achievements: { items: string[] };
-  caseStudies: { items: CaseStudy[] };
+  participations: { items: Participation[] };
+  caseStudies: { items: SchoolStory[] };
   stories: {
-    hero: Hero; caseStudies: Heading; students: Heading; parents: Heading; leaders: Heading; achievements: Heading;
+    hero: Hero; schools: Heading; caseStudies: Heading; students: Heading; parents: Heading; leaders: Heading; achievements: Heading;
   };
   about: {
     hero: Hero;
     overview: { eyebrow: string; title: string; paragraphs: string[]; image: string };
+    video: { label: string; url: string };
+    experience: Heading & { years: string; points: string[] };
     mission: { title: string; body: string };
     vision: { title: string; body: string };
-    accreditations: Heading & { items: string[] };
+    accreditations: Heading;
     judges: Heading & { body: string };
     team: Heading & { members: TeamMember[] };
   };
@@ -133,11 +183,12 @@ export const siteDefaults: SiteContent = {
       "Gezira El Ward Club, next to El Mohamady Restaurant",
     ],
     footerBlurb: "Preparing children for the future through Robotics, Coding, AI and STEM — for schools and parents.",
-    footerTagline: "STEM Accredited • International Competitions • School Partnerships",
+    footerTagline: "STEM.org Accredited • Arab Robotics Union • International Competitions",
     copyrightName: "I.C Robotics Schools",
     social: { facebook: "", instagram: "", youtube: "", linkedin: "", tiktok: "" },
     navPrimary: { label: "Request Proposal", href: "/contact?type=proposal" },
     navSecondary: { label: "Book Free Demo", href: "/contact?type=demo" },
+    schoolsWhatsapp: "01044424957",
   },
 
   videos: {
@@ -163,6 +214,44 @@ export const siteDefaults: SiteContent = {
     ],
   },
 
+  accreditations: {
+    ...h("International Accreditations", "Accredited and recognised", "Our programs follow internationally recognised standards for STEM and robotics education."),
+    items: [
+      {
+        name: "STEM.org Accredited",
+        description: "I.C Robotics programs are accredited by STEM.org, the international accreditation body for STEM education.",
+        logo: "",
+        link: "https://stem.org",
+      },
+      {
+        name: "Arab Robotics Union",
+        description: "Accredited by the Arab Robotics Union (الاتحاد العربي للروبوت).",
+        logo: "",
+        link: "",
+      },
+    ],
+  },
+
+  founders: {
+    ...h("Meet Our Founders", "Who we are, what we do and why it matters", "Hear directly from the founders of I.C Robotics about our vision for Robotics, Programming and AI education in schools."),
+    videos: [
+      { name: "Eng. Ahmed Mamoun", role: "", url: "" },
+      { name: "Eng. Omar El-Saadawy", role: "", url: "" },
+    ],
+  },
+
+  global: {
+    ...h("International Presence", "Our students compete with teams from around the world", "I.C Robotics students have qualified for and competed in international competitions alongside teams from many countries."),
+    countries: [
+      { name: "Egypt", code: "EG" },
+      { name: "China", code: "CN" },
+      { name: "South Korea", code: "KR" },
+      { name: "Saudi Arabia", code: "SA" },
+      { name: "India", code: "IN" },
+      { name: "United States", code: "US" },
+    ],
+  },
+
   stats: { items: impactStats.map((s) => ({ prefix: "", suffix: "", ...s })) },
 
   cta: defaultCta,
@@ -173,16 +262,52 @@ export const siteDefaults: SiteContent = {
       title: "Turn Your School Into a",
       titleHighlight: "Future Skills Powerhouse",
       subtitle:
-        "IC Robotics helps schools build tomorrow's innovators through hands-on Robotics, Coding, AI and STEM programs, international competitions, and measurable student progress.",
+        "We don't just run robotics and coding courses. I.C Robotics helps schools develop their educational system and bring future skills into every stage — through hands-on Robotics, Programming and AI, real problem solving, and national & international competitions.",
       primary: { label: "Request School Proposal", href: "/contact?type=proposal" },
       secondary: { label: "Book Free School Demo", href: "/contact?type=demo" },
-      chips: heroChips,
+      chips: [heroChips[0], heroChips[1], "Max 8 Students per Engineer", heroChips[3]],
       videoLabel: "Watch: A day at IC Robotics",
     },
-    trustIndicators,
+    trustIndicators: ["STEM.org Accredited", "Arab Robotics Union", "International Competitions", "School Partnerships"],
+    message: {
+      ...h(
+        "More Than Courses",
+        "We help schools build a complete future-skills system",
+        "I.C Robotics doesn't just deliver robotics and coding classes. We partner with schools to develop their educational system and introduce the skills of the future — Robotics, Programming and AI — into every stage.",
+      ),
+      system: [
+        { title: "Trainers & engineers", blurb: "Certified trainers and specialised engineers deliver every session inside the school.", icon: "Users" },
+        { title: "Equipment & kits", blurb: "Robotics kits, laptops and all the tools needed for training.", icon: "Cpu" },
+        { title: "Curriculum & content", blurb: "A structured curriculum with a clear learning path for every student.", icon: "BookOpen" },
+      ],
+      method: ["Hands-on, practical training", "Problem-solving skills", "National & international competitions"],
+    },
+    ratio: {
+      eyebrow: "Small Groups",
+      title: "One engineer for every 8 students — at most",
+      value: "1 : 8",
+      body: "Training happens in small groups, so every trainer can follow each student's level and help them while they build and program their projects.",
+      points: [
+        "Each student's progress is followed individually",
+        "Hands-on help during every activity and project",
+        "A core part of how we guarantee training quality",
+      ],
+    },
+    responsibilities: {
+      ...h("How the Partnership Works", "Clear roles for the academy and the school", "A simple partnership model: we bring the program, the people and the equipment — the school provides the space."),
+      academyTitle: "I.C Robotics provides",
+      academy: [
+        "Trainers and specialised engineers",
+        "Educational robotics kits",
+        "Laptops, tools and all equipment needed for training",
+        "The curriculum, with a guaranteed learning path for every student",
+      ],
+      schoolTitle: "The school provides",
+      school: ["A STEM lab or a suitable classroom for the activities"],
+    },
     skills: {
       ...h(
-        "Why Future Skills Matter",
+        "Robotics, Programming & AI",
         "Three skills that prepare children for tomorrow's jobs",
         "Robotics, Coding and Artificial Intelligence are the literacy of the next generation. Here's how each one builds career-ready thinking.",
       ),
@@ -215,6 +340,117 @@ export const siteDefaults: SiteContent = {
     competitions: h("Latest Competitions", "Where our students compete on the world stage"),
   },
 
+  events: {
+    orientation: {
+      eyebrow: "Orientation Day",
+      title: "We meet students and parents before the school year starts",
+      body: "Before the academic year begins, an I.C Robotics representative attends the orientation day organised by the school to explain what the program will offer students throughout the year — so parents are part of the journey from day one.",
+      points: [
+        "What students will learn during the year",
+        "How sessions, kits and projects work",
+        "How parents can follow their child's progress",
+      ],
+      photos: [],
+    },
+    roboticsDay: {
+      eyebrow: "Robotics Day",
+      title: "Every term ends with a Robotics Day",
+      body: "At the end of each term, the academy organises a Robotics Day where students present the projects they built and the skills they gained during the course — giving parents the chance to see their children's learning and progress for themselves.",
+      points: [
+        "Students present their own robots and projects",
+        "Parents see real results, not just reports",
+        "A celebration of what every student achieved",
+      ],
+      photos: [],
+      editions: [],
+    },
+  },
+
+  contracting: {
+    hero: {
+      eyebrow: "Contracting Systems",
+      title: "Choose How Your School Works With Us",
+      subtitle: "Six flexible ways to bring Robotics, Programming and AI into your school — pick the one that fits, and request it in one click.",
+    },
+    journey: [
+      { title: "Choose a system", blurb: "Pick the contracting system that fits your school." },
+      { title: "Review the details", blurb: "See what's included and who it's for." },
+      { title: "Request or book", blurb: "One click opens WhatsApp with a ready message." },
+      { title: "Talk to our schools team", blurb: "Our School Department replies with a tailored plan." },
+    ],
+    systems: [
+      {
+        id: "all-school-students", title: "All School Students", arabic: "جميع طلاب المدرسة", icon: "School",
+        summary: "The program is delivered to every student in the school as part of the school day.",
+        details: [
+          "Robotics, Programming and AI become part of the school's learning experience for all students, with a curriculum matched to each stage from KG to Secondary.",
+          "I.C Robotics provides the trainers, kits and content; the school provides a STEM lab or suitable classroom.",
+        ],
+        includes: ["Stage-based curriculum for all grades", "Trainers and specialised engineers", "Robotics kits and equipment", "Orientation Day and end-of-term Robotics Day"],
+        bestFor: "Schools that want future skills to be part of every student's education.",
+        image: "", photos: [], presentation: "", buttonLabel: "Request this system",
+        message: "",
+      },
+      {
+        id: "optional-enrollment", title: "Optional Enrollment", arabic: "الاشتراك الاختياري", icon: "Users",
+        summary: "Students who are interested can join the program inside the school — no obligation for everyone.",
+        details: [
+          "The school offers the program to its students and parents; those who want to join enrol, and sessions run inside the school.",
+          "A great way to start small and grow the program based on demand.",
+        ],
+        includes: ["Program delivered inside the school", "Open to interested students only", "Trainers, kits and curriculum included"],
+        bestFor: "Schools that want to offer robotics as an optional activity.",
+        image: "", photos: [], presentation: "", buttonLabel: "Request this system",
+        message: "",
+      },
+      {
+        id: "event-booking", title: "Event Booking", arabic: "حجز الفعاليات", icon: "CalendarCheck",
+        summary: "Book and organise educational technology events for your school.",
+        details: [
+          "We plan and run educational events at your school — such as robotics showcases, hands-on workshops and demo days — for students and parents.",
+        ],
+        includes: ["Event planning and delivery", "Hands-on activities for students", "Our team and equipment on site"],
+        bestFor: "Schools planning a one-off event or a special day.",
+        image: "", photos: [], presentation: "", buttonLabel: "Book an event",
+        message: "",
+      },
+      {
+        id: "summer-camp", title: "Summer Camp Activities", arabic: "أنشطة المعسكر الصيفي", icon: "Sun",
+        summary: "Robotics, Programming and AI activities and programs during the school's summer camp.",
+        details: [
+          "Energetic summer programs where students build, code and compete in a fun camp format.",
+        ],
+        includes: ["Summer camp program and schedule", "Trainers and kits", "Final showcase for students"],
+        bestFor: "Schools running a summer camp.",
+        image: "", photos: [], presentation: "", buttonLabel: "Request this system",
+        message: "",
+      },
+      {
+        id: "stage-based", title: "Stage-Based Programs", arabic: "برامج لمراحل دراسية محددة", icon: "GraduationCap",
+        summary: "The program is delivered to students of a specific stage inside the school.",
+        details: [
+          "Choose one or more stages — KG, Lower Primary, Upper Primary, Prep or Secondary — and we deliver the curriculum and kits designed for that stage.",
+        ],
+        includes: ["Curriculum designed for the chosen stage", "Kits matched to the students' age", "Trainers and specialised engineers"],
+        bestFor: "Schools that want to start with a specific stage.",
+        image: "", photos: [], presentation: "", buttonLabel: "Request this system",
+        message: "",
+      },
+      {
+        id: "competition-programs", title: "Competition Programs", arabic: "برامج المسابقات", icon: "Trophy",
+        summary: "A specialised program that prepares students to take part in competitions.",
+        details: [
+          "We select and train school teams for national and international competitions, and students compete under their school's name.",
+        ],
+        includes: ["Team selection and training", "Competition kits and coaching", "Registration and participation support"],
+        bestFor: "Schools that want to build a competition team.",
+        image: "", photos: [], presentation: "", buttonLabel: "Request this system",
+        message: "",
+      },
+    ],
+    note: "Not sure which system fits? Message our School Department and we'll help you choose.",
+  },
+
   schools: {
     hero: {
       eyebrow: "For School Leaders",
@@ -224,7 +460,7 @@ export const siteDefaults: SiteContent = {
       secondary: { label: "Check School Readiness", href: "/school-readiness-assessment" },
     },
     why: { ...h("Why Schools Choose IC Robotics", "Everything you need, delivered end-to-end"), items: whySchools },
-    models: { ...h("Partnership Models", "Choose the model that fits your school", "Start small or integrate fully — every model scales with you."), items: partnershipModels },
+    models: { ...h("Contracting Systems", "Choose the model that fits your school", "Six flexible ways to work with us — start small or integrate fully."), items: partnershipModels },
     receives: { ...h("What Schools Receive", "A full future-skills toolkit"), items: schoolReceives },
     readiness: {
       badge: "Free Tool",
@@ -263,6 +499,152 @@ export const siteDefaults: SiteContent = {
       { key: "Coding", title: "Coding Programs", blurb: "From visual Scratch blocks to Python and real web & app projects." },
       { key: "AI", title: "AI Programs", blurb: "Understand and build with artificial intelligence, responsibly." },
     ],
+    robotics: {
+      ...h("Robotics Program", "A clear robotics path for every stage", "Choose a stage to see exactly what students learn, the goals and outcomes, the hands-on activities, and the robotics kits we use."),
+      stages: [
+        {
+          id: "kg", tab: "Robotics KG", title: "Robotics — KG", grades: "KG1 – KG2 · ages 4–6",
+          summary: "Young children discover robots through play — giving instructions, building simple models and seeing cause and effect.",
+          teach: [
+            "Directions and step-by-step instructions with screen-free coding robots",
+            "Shapes, colours and patterns through playful robot games",
+            "Simple building with big bricks and following picture instructions",
+          ],
+          objectives: [
+            "Understand that a robot follows the instructions we give it",
+            "Build early logical thinking and sequencing",
+            "Develop fine motor skills, teamwork and turn-taking",
+          ],
+          outcomes: [
+            "Plans a short sequence of commands to reach a goal",
+            "Notices a mistake in a sequence and fixes it",
+            "Builds a simple model by following picture instructions",
+          ],
+          activities: [
+            "Programming a robot through mazes and obstacle courses",
+            "Coding-card games and storytelling with robots",
+            "Build-and-play challenges in small groups",
+          ],
+          photos: [],
+          kits: [
+            {
+              name: "Botley", image: "", ages: "KG", summary: "A screen-free coding robot that children program with a simple remote programmer.",
+              components: ["Botley robot", "Remote programmer", "Coding cards", "Obstacle and maze pieces"],
+              skills: ["Sequencing", "Directions", "Logical thinking", "Problem solving"],
+              activities: ["Guiding Botley through mazes", "Avoiding obstacles", "Following coding-card challenges"],
+              outcomes: ["Builds and runs a sequence of commands", "Debugs simple mistakes"],
+              video: "",
+            },
+            {
+              name: "Wise Child", image: "", ages: "KG", summary: "",
+              components: [], skills: [], activities: [], outcomes: [], video: "",
+            },
+          ],
+        },
+        {
+          id: "lower-prime", tab: "Robotics Lower Prime", title: "Robotics — Lower Primary", grades: "Grades 1 – 3",
+          summary: "Students build motorised LEGO models with motors and sensors, and bring them to life with block-based programming.",
+          teach: [
+            "Building motorised models with LEGO WeDo 2.0",
+            "Block-based programming to control motors and sensors",
+            "Simple machines and how things move",
+          ],
+          objectives: [
+            "Connect building with programming",
+            "Understand how motors and sensors work",
+            "Solve problems through design and testing",
+          ],
+          outcomes: [
+            "Builds and programs a working model",
+            "Uses motion and tilt sensors in a program",
+            "Explains how the model works and improves it",
+          ],
+          activities: [
+            "Building and programming animals, vehicles and machines",
+            "Science-themed mini projects",
+            "Team challenges and the end-of-term Robotics Day showcase",
+          ],
+          photos: [],
+          kits: [
+            {
+              name: "LEGO WeDo 2.0", image: "", ages: "Grades 1 – 3",
+              summary: "LEGO Education's early robotics set for building and programming motorised models with sensors.",
+              components: ["Smarthub", "Medium motor", "Motion sensor", "Tilt sensor", "LEGO building elements"],
+              skills: ["Building and engineering", "Block-based programming", "Using sensors", "Scientific thinking"],
+              activities: ["Building and coding motorised models", "Sensor-based mini projects", "Team building challenges"],
+              outcomes: ["Builds and programs a working robot model", "Understands inputs (sensors) and outputs (motors)"],
+              video: "https://youtube.com/shorts/UzmtDTA0DtE",
+            },
+          ],
+        },
+        {
+          id: "upper-prime", tab: "Robotics Upper Prime", title: "Robotics — Upper Primary", grades: "Grades 4 – 6",
+          summary: "Students move to more advanced robots — gears, sensors and programs with loops and conditions.",
+          teach: [
+            "Advanced building with gears and mechanisms",
+            "Programming with loops, conditions and sensors",
+            "Introduction to competition-style missions",
+          ],
+          objectives: [
+            "Design robots that react to their environment",
+            "Strengthen logical and computational thinking",
+            "Work as a team to plan, build and test",
+          ],
+          outcomes: [
+            "Builds a robot that uses sensors to make decisions",
+            "Writes programs with loops and conditions",
+            "Tests, measures and improves a design",
+          ],
+          activities: ["Mission-based robot challenges", "Sensor projects", "Team presentations at Robotics Day"],
+          photos: [],
+          kits: [],
+        },
+        {
+          id: "prep", tab: "Robotics Prep Stage", title: "Robotics — Prep Stage", grades: "Grades 7 – 9",
+          summary: "Students design autonomous robots and prepare for competition-style challenges.",
+          teach: [
+            "Autonomous robots and advanced sensors",
+            "Programming logic for autonomous missions",
+            "Engineering design and competition strategy",
+          ],
+          objectives: [
+            "Build robots that complete missions on their own",
+            "Apply engineering design to real problems",
+            "Prepare for national and international competitions",
+          ],
+          outcomes: [
+            "Designs, builds and programs an autonomous robot",
+            "Debugs complex behaviour systematically",
+            "Presents and defends a technical solution",
+          ],
+          activities: ["Autonomous mission challenges", "Competition practice rounds", "Engineering design projects"],
+          photos: [],
+          kits: [],
+        },
+        {
+          id: "secondary", tab: "Robotics Secondary Stage", title: "Robotics — Secondary Stage", grades: "Grades 10 – 12",
+          summary: "Advanced robotics with microcontrollers and electronics, and preparation for international competitions.",
+          teach: [
+            "Microcontrollers and electronics",
+            "Text-based programming for robots",
+            "Systems design and international competition preparation",
+          ],
+          objectives: [
+            "Build complete robotic systems from components",
+            "Use real programming languages to control hardware",
+            "Compete at national and international level",
+          ],
+          outcomes: [
+            "Builds a robot from electronic components",
+            "Programs hardware in a text-based language",
+            "Leads a team project from idea to working prototype",
+          ],
+          activities: ["Microcontroller projects", "Competition robots", "Capstone engineering projects"],
+          photos: [],
+          kits: [],
+        },
+      ],
+    },
     items: programs,
     roadmap: {
       ...h("Learning Roadmap", "From KG To Secondary: A Complete Future Skills Journey", "How Robotics, Coding and AI progress together across every stage."),
@@ -279,12 +661,23 @@ export const siteDefaults: SiteContent = {
   competitions: {
     hero: {
       eyebrow: "Competitions",
-      title: "Where Students Compete On The World Stage",
-      subtitle: "From national qualifiers to international championships — we prepare, coach and take students all the way.",
+      title: "Empowering Students to Compete on the World Stage",
+      subtitle: "We empower students to represent their schools on local and international stages through robotics, coding, and innovation competitions.",
     },
-    international: h("International Competitions", "Global championships we compete in"),
-    national: h("National Competitions", "National qualifiers & leagues"),
-    items: competitions.map((c) => ({ logo: "", ...c })),
+    intro: [
+      "Our students compete under their schools' names, showcasing their skills, creativity, teamwork, and technical excellence while building their schools' reputation and creating achievements to be proud of.",
+      "From national championships to international competitions in countries such as China and South Korea, we help schools turn learning into real-world achievements and give students the opportunity to shine on the world stage.",
+    ],
+    participations: h("International Participations", "Representing their schools around the world", "Our international participations come first — students who represented their schools in China, South Korea and beyond."),
+    international: h("Competitions We Compete In", "Local and international competitions", "Click a competition to see our participations over the years."),
+    national: h("National Participations", "Competing across Egypt"),
+    items: [
+      { ...competitions[0], logo: "/logos/FLL.png", categories: ["FIRST LEGO League Explore", "FIRST LEGO League Challenge"] },
+      { ...competitions[2], logo: "/logos/IRC.png", categories: [] },
+      { id: "grc", name: "GRC Competitions", scope: "International", description: "Robotics competitions where our partner schools' teams compete and represent their schools.", countries: "", achievement: "", logo: "", categories: [] },
+      { ...competitions[1], logo: "/logos/WRO.png", categories: [] },
+      { ...competitions[3], logo: "/logos/Technoxian.png", categories: [] },
+    ],
     journey: {
       ...h("Competition Journey", "From classroom to championship"),
       steps: [
@@ -305,7 +698,57 @@ export const siteDefaults: SiteContent = {
   },
 
   achievements: { items: internationalAchievements },
-  caseStudies: { items: caseStudies },
+
+  participations: {
+    items: [
+      {
+        competition: "International robotics competition", category: "", year: "", country: "China", countryCode: "CN",
+        scope: "International", school: "Modern Mansoura College", team: "Youssef El-Gaous", result: "",
+        summary: "Youssef El-Gaous represented Modern Mansoura College at an international robotics competition in China.",
+        photos: [], video: "", evidence: "",
+      },
+      {
+        competition: "International robotics competition", category: "", year: "", country: "South Korea", countryCode: "KR",
+        scope: "International", school: "", team: "", result: "",
+        summary: "I.C Robotics students represented their schools at an international robotics competition in South Korea.",
+        photos: [], video: "", evidence: "",
+      },
+      {
+        competition: "Robot Challenge", category: "", year: "", country: "Egypt", countryCode: "EG",
+        scope: "National", school: "", team: "", result: "1st place",
+        summary: "First place in Egypt at the Robot Challenge, competing in collaboration with a partner school.",
+        photos: [], video: "", evidence: "",
+      },
+    ],
+  },
+
+  caseStudies: {
+    items: [
+      {
+        id: "majesty", school: "Majesty International Schools", students: "", challenge: "", solution: "", impact: "", outcomes: [],
+        location: "Al Khamayel, 26th of July Corridor, Giza", photo: "", logo: "/partners/Majesty International Schools.png",
+        featured: true, since: "", programs: [], participation: "", achievements: [],
+      },
+      {
+        id: "dis", school: "Damietta International Schools (DIS)", students: "", challenge: "", solution: "", impact: "", outcomes: [],
+        location: "New Damietta", photo: "", logo: "/partners/Damietta International Schools.png",
+        featured: true, since: "", programs: [], participation: "", achievements: [],
+      },
+      {
+        ...caseStudies[0], school: "Modern Mansoura College (MMC)",
+        location: "", photo: "", logo: "/partners/Modern Mansoura College.png", featured: false, since: "",
+        programs: [], participation: "", achievements: [],
+      },
+      {
+        ...caseStudies[1], location: "", photo: "", logo: "/partners/Sky Schools.png", featured: false, since: "",
+        programs: [], participation: "", achievements: [],
+      },
+      ...["Mansoura College British School", "Mansoura College American School", "Al Wady Language Schools"].map((name) => ({
+        id: name.toLowerCase().replace(/[^a-z0-9]+/g, "-"), school: name, students: "", challenge: "", solution: "", impact: "", outcomes: [],
+        location: "", photo: "", logo: `/partners/${name}.png`, featured: false, since: "", programs: [], participation: "", achievements: [],
+      })),
+    ],
+  },
 
   stories: {
     hero: {
@@ -313,6 +756,7 @@ export const siteDefaults: SiteContent = {
       title: "Real Schools. Real Students. Real Impact.",
       subtitle: "Case studies and testimonials from the schools, parents and students who built their future with IC Robotics.",
     },
+    schools: h("Our Partner Schools", "Schools that work with I.C Robotics", "Every school we have partnered with — with its location, the programs we deliver and what its students achieved."),
     caseStudies: h("School Case Studies", "How schools transformed with IC Robotics"),
     students: h("Student Success Stories", "Students who found their path"),
     parents: h("Parent Testimonials", "What parents say"),
@@ -328,12 +772,25 @@ export const siteDefaults: SiteContent = {
     },
     overview: {
       eyebrow: "Company Overview",
-      title: "A future-skills academy, not a training center",
+      title: "Robotics, Programming & AI education — built for schools",
       paragraphs: [
-        "IC Robotics partners with schools and families to deliver world-class STEM education: progressive curriculum, certified trainers, robotics labs, assessments, student portfolios, certificates and a proven competition pathway that reaches the international stage.",
-        "We've trained 15,000+ students, entered 8,000+ competition participants and delivered partnerships as large as 1,500 students in a single school.",
+        "I.C Robotics is an educational technology academy that works with schools and students in three core areas: Robotics, Coding and Artificial Intelligence (AI).",
+        "We design and deliver complete programs inside schools — trainers and specialised engineers, robotics kits and equipment, and a structured curriculum for every stage from KG to Secondary — so any school can offer future skills to its students.",
+        "Our students learn by doing: they build and program real robots, solve problems in teams, present their projects at our end-of-term Robotics Day, and represent their schools in national and international competitions.",
+        "For 9 years we have worked hand in hand with partner schools to turn technology education into real results for students, parents and school leaders.",
       ],
       image: "",
+    },
+    video: { label: "About I.C Robotics", url: "" },
+    experience: {
+      ...h("Our Experience", "9 years of building future-skills programs with schools"),
+      years: "9",
+      points: [
+        "Programs delivered inside partner schools, from KG to Secondary",
+        "Student teams prepared for national and international competitions",
+        "Trainers and engineers specialised in Robotics, Coding and AI",
+        "Long-term partnerships with schools across Egypt",
+      ],
     },
     mission: {
       title: "Mission",
@@ -343,10 +800,7 @@ export const siteDefaults: SiteContent = {
       title: "Vision",
       body: "A generation of confident creators who shape technology rather than fear it — starting in the classroom and reaching the world stage.",
     },
-    accreditations: {
-      ...h("Accreditations", "Recognized standards"),
-      items: ["STEM Accreditation", "International Competition Partner", "Certified Trainer Program", "School Partnership Standard"],
-    },
+    accreditations: h("Accreditations", "Internationally recognised"),
     judges: {
       ...h("International Judges Experience", "We don't just compete — we judge"),
       body: "Our coaches have served as judges and mentors at international robotics competitions — giving our students an insider understanding of exactly what wins on the world stage.",
@@ -354,10 +808,12 @@ export const siteDefaults: SiteContent = {
     team: {
       ...h("Our Team", "The people behind IC Robotics"),
       members: [
-        { name: "Founder & CEO", role: "Vision & School Partnerships", photo: "" },
-        { name: "Head of Curriculum", role: "Robotics · Coding · AI", photo: "" },
-        { name: "Head of Competitions", role: "International Coach & Judge", photo: "" },
-        { name: "Head of Trainers", role: "Trainer Certification", photo: "" },
+        { name: "", role: "Founder", photo: "" },
+        { name: "", role: "Co-Founder", photo: "" },
+        { name: "", role: "COO — Chief Operating Officer", photo: "" },
+        { name: "", role: "Head of Curriculum", photo: "" },
+        { name: "", role: "Head of Competitions", photo: "" },
+        { name: "", role: "Head of Trainers", photo: "" },
       ],
     },
   },

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import type { Competition } from "@/lib/data";
 
-export function CompetitionCard({ competition }: { competition: Competition }) {
+export function CompetitionCard({ competition, docsHref, docsCount = 0 }: { competition: Competition; docsHref?: string; docsCount?: number }) {
   return (
     <article className="card-surface flex h-full flex-col overflow-hidden p-0">
       {competition.logo ? (
@@ -21,11 +21,23 @@ export function CompetitionCard({ competition }: { competition: Competition }) {
           <span className="rounded-full bg-grape-50 px-2.5 py-1 text-[10px] font-bold uppercase text-grape-600">{competition.scope}</span>
         </div>
         <p className="flex-1 text-sm leading-relaxed text-slate-600">{competition.description}</p>
-        <dl className="mt-4 space-y-2 text-sm">
-          <div className="flex items-center gap-2 text-slate-600"><Globe className="h-4 w-4 text-brand-500" /> {competition.countries}</div>
-          <div className="flex items-center gap-2 text-slate-600"><Medal className="h-4 w-4 text-accent-500" /> {competition.achievement}</div>
-        </dl>
-        <Button asChild variant="outline" className="mt-5 w-full">
+        {competition.categories && competition.categories.filter(Boolean).length > 0 && (
+          <ul className="mt-3 flex flex-wrap gap-1.5">
+            {competition.categories.filter(Boolean).map((c) => <li key={c} className="rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-semibold text-brand-700">{c}</li>)}
+          </ul>
+        )}
+        {(competition.countries || competition.achievement) && (
+          <dl className="mt-4 space-y-2 text-sm">
+            {competition.countries && <div className="flex items-center gap-2 text-slate-600"><Globe className="h-4 w-4 text-brand-500" /> {competition.countries}</div>}
+            {competition.achievement && <div className="flex items-center gap-2 text-slate-600"><Medal className="h-4 w-4 text-accent-500" /> {competition.achievement}</div>}
+          </dl>
+        )}
+        {docsHref && docsCount > 0 && (
+          <Button asChild variant="ghost" className="mt-4 w-full">
+            <Link href={docsHref}>Our participations ({docsCount})</Link>
+          </Button>
+        )}
+        <Button asChild variant="outline" className={docsHref && docsCount > 0 ? "mt-2 w-full" : "mt-5 w-full"}>
           <Link href={`/competition-registration?competition=${competition.id}`}>Register Interest</Link>
         </Button>
       </div>

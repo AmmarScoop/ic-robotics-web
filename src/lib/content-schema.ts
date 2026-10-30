@@ -9,6 +9,7 @@ export type Field =
   | (Base & { kind: "number" })
   | (Base & { kind: "video" })
   | (Base & { kind: "image" })
+  | (Base & { kind: "images" })
   | (Base & { kind: "icon" })
   | (Base & { kind: "boolean" })
   | (Base & { kind: "date" })
@@ -69,6 +70,7 @@ export const sections: SectionDef[] = [
           text("email", "Email"),
           text("phone", "Phone"),
           text("whatsapp", "WhatsApp number (optional)", "Leave empty to hide"),
+          text("schoolsWhatsapp", "School Department WhatsApp", "Receives the request/booking messages from the Contracting Systems page, e.g. 01xxxxxxxxx"),
           { kind: "strings", key: "addresses", label: "Addresses / branches", itemLabel: "address" },
         ],
       },
@@ -131,6 +133,42 @@ export const sections: SectionDef[] = [
     ],
   },
   {
+    key: "accreditations", group: "Website settings", icon: "Award", preview: "/",
+    title: "International accreditations",
+    description: "STEM.org, Arab Robotics Union and other accreditations — shown on Home and About.",
+    fields: [
+      text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2),
+      {
+        kind: "list", key: "items", label: "Accreditations", itemLabel: "accreditation", titleKey: "name",
+        fields: [text("name", "Name"), area("description", "Description", 2), { kind: "image", key: "logo", label: "Logo / badge" }, text("link", "Link to verify (optional)")],
+      },
+    ],
+  },
+  {
+    key: "founders", group: "Website settings", icon: "Video", preview: "/",
+    title: "Founders' intro videos",
+    description: "Introduction videos from the academy's founders, shown prominently on the Home page once a link is added.",
+    fields: [
+      text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2),
+      {
+        kind: "list", key: "videos", label: "Videos", itemLabel: "video", titleKey: "name",
+        fields: [text("name", "Name (e.g. Eng. Ahmed Mamoun)"), text("role", "Role (e.g. Founder)"), { kind: "video", key: "url", label: "Video link" }],
+      },
+    ],
+  },
+  {
+    key: "global", group: "Website settings", icon: "Globe", preview: "/",
+    title: "International presence (flags)",
+    description: "Countries whose international competitions our students qualified for — shown as flags on Home and Competitions.",
+    fields: [
+      text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2),
+      {
+        kind: "list", key: "countries", label: "Countries", itemLabel: "country", titleKey: "name",
+        fields: [text("name", "Country name"), text("code", "2-letter country code", "e.g. EG, CN, KR, SA, IN, US, AE, JP")],
+      },
+    ],
+  },
+  {
     key: "cta", group: "Website settings", icon: "Rocket", preview: "/about",
     title: "Default call-to-action banner",
     description: "The blue banner at the bottom of Home, About, Success Stories and blog articles.",
@@ -156,7 +194,27 @@ export const sections: SectionDef[] = [
       },
       { kind: "strings", key: "trustIndicators", label: "Trust badges under the partner logos", itemLabel: "badge" },
       {
-        kind: "group", key: "skills", label: "Why Future Skills Matter", collapsed: true, fields: [
+        kind: "group", key: "message", label: "Marketing message (“More than courses”)", collapsed: true, fields: [
+          text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Paragraph", 3),
+          iconItems("system", "What we provide (cards)", "card"),
+          { kind: "strings", key: "method", label: "Our approach (chips)", itemLabel: "chip" },
+        ],
+      },
+      {
+        kind: "group", key: "ratio", label: "Student-to-instructor ratio", collapsed: true, fields: [
+          text("eyebrow", "Small label"), text("value", "Ratio (big number), e.g. 1 : 8"), text("title", "Title"), area("body", "Text", 3),
+          { kind: "strings", key: "points", label: "Points", itemLabel: "point" },
+        ],
+      },
+      {
+        kind: "group", key: "responsibilities", label: "Academy & school responsibilities", collapsed: true, fields: [
+          text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2),
+          text("academyTitle", "Academy column title"), { kind: "strings", key: "academy", label: "Academy responsibilities", itemLabel: "item" },
+          text("schoolTitle", "School column title"), { kind: "strings", key: "school", label: "School responsibilities", itemLabel: "item" },
+        ],
+      },
+      {
+        kind: "group", key: "skills", label: "Robotics, Programming & AI cards", collapsed: true, fields: [
           text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2),
           text("careersLabel", "Careers label"),
           {
@@ -194,6 +252,57 @@ export const sections: SectionDef[] = [
     ],
   },
   {
+    key: "events", group: "Pages", icon: "CalendarCheck", preview: "/",
+    title: "Orientation Day & Robotics Day",
+    description: "The two events shown on the Home page, with photos and summaries of past events.",
+    fields: [
+      {
+        kind: "group", key: "orientation", label: "Orientation Day", fields: [
+          text("eyebrow", "Small label"), text("title", "Title"), area("body", "Text", 3),
+          { kind: "strings", key: "points", label: "Points", itemLabel: "point" },
+          { kind: "images", key: "photos", label: "Photos" },
+        ],
+      },
+      {
+        kind: "group", key: "roboticsDay", label: "Robotics Day (end of every term)", fields: [
+          text("eyebrow", "Small label"), text("title", "Title"), area("body", "Text", 3),
+          { kind: "strings", key: "points", label: "Points", itemLabel: "point" },
+          { kind: "images", key: "photos", label: "Photos" },
+          {
+            kind: "list", key: "editions", label: "Past Robotics Days (summaries)", itemLabel: "event", titleKey: "title",
+            fields: [text("title", "Title (e.g. Robotics Day — Term 1, 2025)"), text("date", "Date"), text("school", "School"), area("summary", "Summary", 3), { kind: "images", key: "photos", label: "Photos" }],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: "contracting", group: "Pages", icon: "FileText", preview: "/contracting-systems",
+    title: "Contracting Systems page",
+    description: "The six contracting systems, their details, photos/presentation and the WhatsApp request message. The WhatsApp number is in General settings.",
+    fields: [
+      hero(),
+      { kind: "list", key: "journey", label: "How it works (steps)", itemLabel: "step", titleKey: "title", fields: [text("title", "Title"), area("blurb", "Description", 2)] },
+      {
+        kind: "list", key: "systems", label: "Contracting systems", itemLabel: "system", titleKey: "title",
+        fields: [
+          text("title", "Name (English)"), text("arabic", "Name (Arabic)"), { kind: "icon", key: "icon", label: "Icon" },
+          area("summary", "One-line summary", 2),
+          { kind: "strings", key: "details", label: "Details (paragraphs)", itemLabel: "paragraph", multiline: true },
+          { kind: "strings", key: "includes", label: "What's included", itemLabel: "item" },
+          text("bestFor", "Best for"),
+          { kind: "image", key: "image", label: "Cover image (optional)" },
+          { kind: "images", key: "photos", label: "Photos (optional)" },
+          text("presentation", "Presentation link (optional)", "Google Slides / PDF link"),
+          text("buttonLabel", "Button text"),
+          area("message", "WhatsApp message (optional)", 4, "Leave empty for the standard message. Use {system} for the system name."),
+          text("id", "Internal ID", "Unique, no spaces — used in links, e.g. /contracting-systems#event-booking"),
+        ],
+      },
+      area("note", "Help note at the bottom", 2),
+    ],
+  },
+  {
     key: "schools", group: "Pages", icon: "School", preview: "/for-schools",
     title: "For Schools page",
     description: "Why schools choose you, partnership models, what schools receive, readiness banner and dashboard preview.",
@@ -204,7 +313,7 @@ export const sections: SectionDef[] = [
         ],
       },
       { kind: "group", key: "why", label: "Why Schools Choose IC Robotics", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2), iconItems("items", "Items", "item", false)] },
-      { kind: "group", key: "models", label: "Partnership Models", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2), iconItems("items", "Models", "model")] },
+      { kind: "group", key: "models", label: "Contracting systems section (titles)", help: "The cards themselves come from Contracting Systems.", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2)] },
       { kind: "group", key: "receives", label: "What Schools Receive (also used on Home)", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2), iconItems("items", "Items", "item")] },
       { kind: "group", key: "readiness", label: "Readiness assessment banner", collapsed: true, fields: [text("badge", "Badge"), text("title", "Title"), area("body", "Text", 2), link("button", "Button")] },
       heading("proven", "Case studies section title"),
@@ -229,7 +338,34 @@ export const sections: SectionDef[] = [
         fields: [{ kind: "select", key: "key", label: "Track", options: ["Robotics", "Coding", "AI"] }, text("title", "Title"), area("blurb", "Description", 2)],
       },
       {
-        kind: "list", key: "items", label: "Programs / courses", itemLabel: "program", titleKey: "title",
+        kind: "group", key: "robotics", label: "Robotics Program — stage tabs & kits", help: "Shown on the Programs page instead of the Robotics course cards.", fields: [
+          area("subtitle", "Intro text", 2),
+          {
+            kind: "list", key: "stages", label: "Stages (tabs)", itemLabel: "stage", titleKey: "tab",
+            fields: [
+              text("tab", "Tab name (e.g. Robotics KG)"), text("title", "Stage title"), text("grades", "Grades / ages"),
+              area("summary", "Short summary", 2),
+              { kind: "strings", key: "teach", label: "What We Teach", itemLabel: "item" },
+              { kind: "strings", key: "objectives", label: "Learning Objectives", itemLabel: "objective" },
+              { kind: "strings", key: "outcomes", label: "Learning Outcomes", itemLabel: "outcome" },
+              { kind: "strings", key: "activities", label: "Practical Activities", itemLabel: "activity" },
+              { kind: "images", key: "photos", label: "Photos of our students in schools using the kits" },
+              { kind: "list", key: "kits", label: "Robotics kits used in this stage", itemLabel: "kit", titleKey: "name", fields: [
+                  text("name", "Kit name"), { kind: "image", key: "image", label: "Kit photo" }, text("ages", "Age group / stage"),
+                  area("summary", "Short description", 2),
+                  { kind: "strings", key: "components", label: "Components & tools inside", itemLabel: "component" },
+                  { kind: "strings", key: "skills", label: "Skills students learn", itemLabel: "skill" },
+                  { kind: "strings", key: "activities", label: "Activities & projects", itemLabel: "activity" },
+                  { kind: "strings", key: "outcomes", label: "Learning results", itemLabel: "result" },
+                  { kind: "video", key: "video", label: "Intro video (how it's used)" },
+                ] },
+              text("id", "Internal ID", "Unique, no spaces — used in links, e.g. /programs#kg"),
+            ],
+          },
+        ],
+      },
+      {
+        kind: "list", key: "items", label: "Coding & AI courses (and Robotics cards if no stages)", itemLabel: "program", titleKey: "title",
         fields: [
           { kind: "select", key: "track", label: "Track", options: ["Robotics", "Coding", "AI"] },
           text("title", "Title"), text("stage", "Stage (e.g. Primary)"), text("ages", "Ages (e.g. 7–9)"),
@@ -250,9 +386,11 @@ export const sections: SectionDef[] = [
   {
     key: "competitions", group: "Pages", icon: "Trophy", preview: "/competitions",
     title: "Competitions page",
-    description: "Competitions (also used on Home and the registration form), journey steps and section titles.",
+    description: "Intro message, competitions (also used on Home and the registration form), journey and section titles. Participations are under Data.",
     fields: [
       hero(),
+      { kind: "strings", key: "intro", label: "Intro message paragraphs", itemLabel: "paragraph", multiline: true },
+      heading("participations", "International participations section title", false),
       {
         kind: "list", key: "items", label: "Competitions", itemLabel: "competition", titleKey: "name",
         help: "These appear on the Competitions page, the Home page and in the registration form.",
@@ -261,13 +399,14 @@ export const sections: SectionDef[] = [
           { kind: "select", key: "scope", label: "Scope", options: ["International", "National"] },
           area("description", "Description", 2),
           text("countries", "Countries (e.g. 90+ countries)"),
-          text("achievement", "Our achievement"),
+          text("achievement", "Our achievement (only if documented)"),
+          { kind: "strings", key: "categories", label: "Categories we take part in (e.g. FLL Explore)", itemLabel: "category" },
           { kind: "image", key: "logo", label: "Logo" },
           text("id", "Internal ID", "Unique, no spaces — used in registration links"),
         ],
       },
-      heading("international", "International section title"),
-      heading("national", "National section title"),
+      heading("international", "Competitions list section title"),
+      heading("national", "Other national participations section title"),
       {
         kind: "group", key: "journey", label: "Competition journey", collapsed: true, fields: [
           text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Subtitle", 2),
@@ -285,6 +424,7 @@ export const sections: SectionDef[] = [
     description: "Page header and section titles. Case studies, achievements and reviews are edited separately.",
     fields: [
       hero(),
+      heading("schools", "Partner schools section"),
       heading("caseStudies", "Case studies section"),
       heading("students", "Student stories section"),
       heading("parents", "Parent testimonials section"),
@@ -305,14 +445,21 @@ export const sections: SectionDef[] = [
           { kind: "image", key: "image", label: "Photo (optional)" },
         ],
       },
+      { kind: "group", key: "video", label: "About Us video", help: "Shown next to the company overview (replaces the photo) once a link is added.", fields: [text("label", "Video title"), { kind: "video", key: "url", label: "Video link" }] },
+      {
+        kind: "group", key: "experience", label: "Our Experience", collapsed: true, fields: [
+          text("years", "Years (big number)"), text("eyebrow", "Small label"), text("title", "Title"), area("subtitle", "Text (optional)", 2),
+          { kind: "strings", key: "points", label: "Points", itemLabel: "point" },
+        ],
+      },
       { kind: "group", key: "mission", label: "Mission", collapsed: true, fields: [text("title", "Title"), area("body", "Text", 3)] },
       { kind: "group", key: "vision", label: "Vision", collapsed: true, fields: [text("title", "Title"), area("body", "Text", 3)] },
-      { kind: "group", key: "accreditations", label: "Accreditations", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title"), { kind: "strings", key: "items", label: "Accreditations", itemLabel: "accreditation" }] },
+      { kind: "group", key: "accreditations", label: "Accreditations section title", help: "The accreditations themselves are under Website settings → International accreditations.", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title")] },
       { kind: "group", key: "judges", label: "International judges experience", collapsed: true, fields: [text("eyebrow", "Small label"), text("title", "Title"), area("body", "Text", 3)] },
       {
         kind: "group", key: "team", label: "Team", collapsed: true, fields: [
           text("eyebrow", "Small label"), text("title", "Title"),
-          { kind: "list", key: "members", label: "Team members", itemLabel: "member", titleKey: "name", fields: [text("name", "Name"), text("role", "Role"), { kind: "image", key: "photo", label: "Photo (optional)" }] },
+          { kind: "list", key: "members", label: "Team members", itemLabel: "member", titleKey: "role", fields: [text("role", "Job title (e.g. Founder, Co-Founder, COO)"), text("name", "Full name"), { kind: "image", key: "photo", label: "Professional photo" }] },
         ],
       },
     ],
@@ -355,15 +502,29 @@ export const sections: SectionDef[] = [
   // ---------------- Shared content ----------------
   {
     key: "caseStudies", group: "Shared content", icon: "Building2", preview: "/success-stories",
-    title: "School case studies",
-    description: "Shown on Home, For Schools and Success Stories.",
+    title: "Partner schools & case studies",
+    description: "Every contracted school (Success Stories), with photo, location and statistics. Schools with a full case study also appear on Home and For Schools.",
     fields: [
       {
-        kind: "list", key: "items", label: "Case studies", itemLabel: "case study", titleKey: "school",
+        kind: "list", key: "items", label: "Schools", itemLabel: "school", titleKey: "school",
+        help: "Only enter statistics you can confirm — empty statistics are hidden on the site.",
         fields: [
-          text("school", "School name"), text("students", "Students (e.g. 1,500+ students)"),
-          area("challenge", "Challenge", 2), area("solution", "Solution", 2), area("impact", "Impact", 2),
-          { kind: "strings", key: "outcomes", label: "Outcomes", itemLabel: "outcome" },
+          text("school", "School name"),
+          { kind: "boolean", key: "featured", label: "Featured (shown first, larger)" },
+          text("location", "Location / address"),
+          { kind: "image", key: "photo", label: "Real photo of the school building" },
+          { kind: "image", key: "logo", label: "School logo" },
+          text("since", "Partner since (e.g. 2022)"),
+          text("students", "Number of students benefiting (e.g. 450 students)"),
+          { kind: "strings", key: "programs", label: "Programs delivered", itemLabel: "program" },
+          text("participation", "Student participation (e.g. 120 students in competitions)"),
+          { kind: "strings", key: "achievements", label: "Competitions & achievements", itemLabel: "achievement" },
+          {
+            kind: "group", key: "", label: "Full case study (optional)", collapsed: true, fields: [
+              area("challenge", "Challenge", 2), area("solution", "Solution", 2), area("impact", "Impact", 2),
+              { kind: "strings", key: "outcomes", label: "Outcomes", itemLabel: "outcome" },
+            ],
+          },
           text("id", "Internal ID", "Unique, no spaces"),
         ],
       },
@@ -377,6 +538,30 @@ export const sections: SectionDef[] = [
   },
 
   // ---------------- Data ----------------
+  {
+    key: "participations", group: "Data", icon: "Trophy", preview: "/competitions",
+    title: "Competition participations",
+    description: "Every participation, documented with evidence: international ones appear first, then each is listed under its competition (FLL, Robot Challenge, GRC…) by year.",
+    fields: [
+      {
+        kind: "list", key: "items", label: "Participations", itemLabel: "participation", titleKey: "competition",
+        help: "Every achievement shown on the site should be backed by evidence — photos, a video or an official result link.",
+        fields: [
+          text("competition", "Competition", "Use the same name as in the Competitions list (e.g. FIRST LEGO League, Robot Challenge, GRC) to list it under that competition"),
+          text("category", "Category (e.g. Explore, Challenge)"),
+          text("year", "Year"),
+          { kind: "select", key: "scope", label: "Scope", options: ["International", "National"] },
+          text("country", "Country"), text("countryCode", "Country code for the flag", "e.g. CN, KR, EG"),
+          text("school", "School"), text("team", "Students / team"),
+          text("result", "Result (e.g. 1st place)"),
+          area("summary", "Summary", 3),
+          { kind: "images", key: "photos", label: "Photos (students competing, awards, certificates)" },
+          { kind: "video", key: "video", label: "Video" },
+          text("evidence", "Official result / certificate link (optional)"),
+        ],
+      },
+    ],
+  },
   {
     key: "certificates", group: "Data", icon: "Award", preview: "/verify",
     title: "Certificates",

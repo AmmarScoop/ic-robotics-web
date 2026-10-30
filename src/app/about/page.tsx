@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Target, Eye, Award, Gavel, Users } from "lucide-react";
+import { Target, Eye, Gavel, Users } from "lucide-react";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import { StatCard } from "@/components/stat-card";
@@ -7,9 +7,12 @@ import { CTASection } from "@/components/cta-section";
 import { MediaPlaceholder } from "@/components/media-placeholder";
 import { Reveal } from "@/components/reveal";
 import { getSiteContent } from "@/lib/site-content";
+import { VideoBlock } from "@/components/video-block";
+import { AccreditationCards } from "@/components/accreditation-cards";
+import { CheckCircle2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us — Nine Years Building Future Innovators",
+  title: "About Us — 9 Years of Robotics, Coding & AI Education for Schools",
   description: "IC Robotics is a kids technology academy preparing children for the future through Robotics, Coding, AI and STEM — with international competition and judging experience.",
 };
 
@@ -32,7 +35,9 @@ export default async function AboutPage() {
               <p key={i} className="mt-4 text-slate-600">{para}</p>
             ))}
           </Reveal>
-          {p.overview.image ? (
+          {p.video.url ? (
+            <div className="card-surface p-3"><VideoBlock src={p.video.url} label={p.video.label || "About I.C Robotics"} className="aspect-video" /></div>
+          ) : p.overview.image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={p.overview.image} alt={p.overview.title} className="aspect-[4/3] w-full rounded-3xl border border-slate-100 object-cover shadow-soft" />
           ) : (
@@ -42,6 +47,26 @@ export default async function AboutPage() {
         <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-5">
           {content.stats.items.map((s, i) => <StatCard key={s.label} stat={s} index={i} />)}
         </div>
+      </section>
+
+      {/* Our experience */}
+      <section className="container-x pb-16">
+        <Reveal>
+          <div className="grid items-center gap-8 overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-brand-700 via-brand-600 to-grape-600 p-8 text-white shadow-glow sm:p-12 lg:grid-cols-[auto_1fr]">
+            <div className="text-center lg:pr-6">
+              <p className="text-8xl font-extrabold leading-none tracking-tight">{p.experience.years}</p>
+              <p className="mt-2 text-sm font-bold uppercase tracking-widest text-white/70">Years</p>
+            </div>
+            <div>
+              <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide">{p.experience.eyebrow}</span>
+              <h2 className="mt-4 text-3xl font-extrabold">{p.experience.title}</h2>
+              {p.experience.subtitle && <p className="mt-3 text-white/85">{p.experience.subtitle}</p>}
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {p.experience.points.filter(Boolean).map((pt) => <li key={pt} className="flex items-start gap-2 text-sm text-white/90"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-accent-300" /> {pt}</li>)}
+              </ul>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* Mission / Vision */}
@@ -69,11 +94,7 @@ export default async function AboutPage() {
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <SectionHeading eyebrow={p.accreditations.eyebrow} title={p.accreditations.title} subtitle={p.accreditations.subtitle} center={false} />
-            <ul className="mt-8 space-y-3">
-              {p.accreditations.items.map((a) => (
-                <li key={a} className="flex items-center gap-3 card-surface p-4"><Award className="h-5 w-5 text-accent-500" /><span className="font-semibold text-ink">{a}</span></li>
-              ))}
-            </ul>
+            <div className="mt-8"><AccreditationCards items={content.accreditations.items} /></div>
           </div>
           <div>
             <SectionHeading eyebrow={p.judges.eyebrow} title={p.judges.title} subtitle={p.judges.subtitle} center={false} />
@@ -90,17 +111,17 @@ export default async function AboutPage() {
         <div className="container-x">
           <SectionHeading eyebrow={p.team.eyebrow} title={p.team.title} subtitle={p.team.subtitle} />
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {p.team.members.map((m, i) => (
-              <Reveal key={m.name + i} delay={i * 0.06}>
+            {p.team.members.filter((m) => m.name || m.role).map((m, i) => (
+              <Reveal key={(m.name || m.role) + i} delay={i * 0.06}>
                 <div className="card-surface p-6 text-center">
                   {m.photo ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={m.photo} alt={m.name} className="mx-auto h-20 w-20 rounded-full object-cover" />
+                    <img src={m.photo} alt={m.name || m.role} className="mx-auto h-24 w-24 rounded-full object-cover" />
                   ) : (
-                    <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-grape-500 text-white"><Users className="h-8 w-8" /></div>
+                    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-grape-500 text-white"><Users className="h-9 w-9" /></div>
                   )}
-                  <p className="mt-4 font-bold text-ink">{m.name}</p>
-                  <p className="text-sm text-slate-500">{m.role}</p>
+                  <p className="mt-4 font-bold text-ink">{m.name || m.role}</p>
+                  {m.name && <p className="text-sm text-slate-500">{m.role}</p>}
                 </div>
               </Reveal>
             ))}

@@ -6,6 +6,7 @@ import { CTASection } from "@/components/cta-section";
 import { Reveal } from "@/components/reveal";
 import { Icon } from "@/components/icon";
 import { getSiteContent } from "@/lib/site-content";
+import { RoboticsStages } from "@/components/robotics-stages";
 
 export const metadata: Metadata = {
   title: "Programs — Robotics, Coding & AI for KG to Secondary",
@@ -31,12 +32,16 @@ export default async function ProgramsPage() {
               </div>
               <div>
                 <h2 className="text-2xl font-extrabold text-ink">{track.title}</h2>
-                <p className="text-slate-600">{track.blurb}</p>
+                <p className="text-slate-600">{track.key === "Robotics" && p.robotics.subtitle ? p.robotics.subtitle : track.blurb}</p>
               </div>
             </Reveal>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {p.items.filter((it) => it.track === track.key).map((it) => <ProgramCard key={it.id} program={it} />)}
-            </div>
+            {track.key === "Robotics" && p.robotics.stages.length > 0 ? (
+              <RoboticsStages stages={p.robotics.stages} />
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {p.items.filter((it) => it.track === track.key).map((it) => <ProgramCard key={it.id} program={it} />)}
+              </div>
+            )}
           </div>
         </section>
       ))}

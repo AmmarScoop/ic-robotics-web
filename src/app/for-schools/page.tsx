@@ -43,10 +43,15 @@ export default async function ForSchoolsPage() {
       <section className="bg-gradient-to-b from-white to-brand-50/40 py-16">
         <div className="container-x">
           <SectionHeading eyebrow={p.models.eyebrow} title={p.models.title} subtitle={p.models.subtitle} />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {p.models.items.map((m, i) => (
-              <IconCard key={m.title} icon={m.icon} title={m.title} blurb={m.blurb} index={i} tone={i % 2 ? "grape" : "brand"} />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {c.contracting.systems.filter((m) => m.title).map((m, i) => (
+              <Link key={m.id} href={`/contracting-systems#${m.id}`} className="block h-full">
+                <IconCard icon={m.icon} title={m.title} blurb={m.summary} index={i} tone={i % 2 ? "grape" : "brand"} />
+              </Link>
             ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Button asChild variant="outline"><Link href="/contracting-systems">Compare all contracting systems <ArrowRight className="h-4 w-4" /></Link></Button>
           </div>
         </div>
       </section>
@@ -78,7 +83,7 @@ export default async function ForSchoolsPage() {
         <div className="container-x">
           <SectionHeading eyebrow={p.proven.eyebrow} title={p.proven.title} subtitle={p.proven.subtitle} />
           <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {c.caseStudies.items.map((cs) => (
+            {c.caseStudies.items.filter((cs) => cs.impact).map((cs) => (
               <Reveal key={cs.id}>
                 <div className="card-surface p-7">
                   <p className="text-xs font-bold uppercase tracking-wide text-brand-600">{cs.school} · {cs.students}</p>

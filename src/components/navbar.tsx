@@ -16,6 +16,7 @@ const links = [
   { href: "/competitions", label: "Competitions" },
   { href: "/success-stories", label: "Success Stories" },
   { href: "/blog", label: "Blog" },
+  { href: "/contracting-systems", label: "Contracting Systems" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -54,7 +55,7 @@ export function Navbar({ settings }: { settings: SiteContent["settings"] }) {
             <span className="absolute -inset-1 rounded-full bg-brand-400/20 opacity-0 blur transition-opacity group-hover:opacity-100" />
             <LogoMark className="relative h-9 w-9" src={settings.logo} />
           </motion.span>
-          <span className="text-lg tracking-tight">{settings.brandFirst} <span className="gradient-text">{settings.brandSecond}</span></span>
+          <span className="whitespace-nowrap text-lg tracking-tight">{settings.brandFirst} <span className="gradient-text">{settings.brandSecond}</span></span>
         </Link>
 
         <div
@@ -69,7 +70,7 @@ export function Navbar({ settings }: { settings: SiteContent["settings"] }) {
                 key={l.href}
                 href={l.href}
                 onMouseEnter={() => setHovered(l.href)}
-                className="relative whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold"
+                className="relative whitespace-nowrap rounded-full px-2.5 py-1.5 text-[13px] font-semibold"
               >
                 {showPill && (
                   <motion.span
@@ -87,11 +88,11 @@ export function Navbar({ settings }: { settings: SiteContent["settings"] }) {
         </div>
 
         <div className="hidden items-center gap-2 xl:flex">
-          <Button asChild variant="ghost" size="sm"><Link href={settings.navSecondary.href}>{settings.navSecondary.label}</Link></Button>
+          <Button asChild variant="ghost" size="sm" className="hidden"><Link href={settings.navSecondary.href}>{settings.navSecondary.label}</Link></Button>
           <Button asChild size="sm" className="group">
             <Link href={settings.navPrimary.href}>
               <Sparkles className="h-4 w-4" /> {settings.navPrimary.label}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="hidden" />
             </Link>
           </Button>
         </div>

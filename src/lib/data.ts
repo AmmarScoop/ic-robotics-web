@@ -106,6 +106,8 @@ export type Competition = {
   achievement: string;
   /** Path (under /public) or URL of the competition logo. */
   logo?: string;
+  /** Categories / divisions we take part in (e.g. FLL Explore). */
+  categories?: string[];
 };
 
 export const competitions: Competition[] = [

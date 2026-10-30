@@ -2,20 +2,15 @@ import Link from "next/link";
 import { Mail, Phone, MapPin, MessageCircle, Facebook, Instagram, Youtube, Linkedin, Music2 } from "lucide-react";
 import { LogoMark } from "@/components/logo";
 import type { SiteContent } from "@/lib/site-defaults";
+import { whatsappLink } from "@/lib/whatsapp";
 
 const cols = [
   { title: "Programs", links: [["Robotics", "/programs"], ["Coding", "/programs"], ["AI", "/programs"], ["Competitions", "/competitions"]] },
-  { title: "Schools", links: [["For Schools", "/for-schools"], ["School Readiness", "/school-readiness-assessment"], ["Request Proposal", "/contact?type=proposal"], ["Book Demo", "/contact?type=demo"]] },
+  { title: "Schools", links: [["For Schools", "/for-schools"], ["Contracting Systems", "/contracting-systems"], ["School Readiness", "/school-readiness-assessment"], ["Request Proposal", "/contact?type=proposal"], ["Book Demo", "/contact?type=demo"]] },
   { title: "Explore", links: [["Success Stories", "/success-stories"], ["Blog", "/blog"], ["About", "/about"], ["Verify Certificate", "/verify"]] },
   { title: "For Parents", links: [["Child Assessment", "/child-assessment"], ["Student Dashboard", "/student-dashboard"], ["Portfolio Example", "/student/ahmed"], ["Register Competition", "/competition-registration"]] },
 ];
 
-function whatsappLink(n: string) {
-  const digits = n.replace(/[^\d]/g, "");
-  // Egyptian local numbers (01xxxxxxxxx) → international format for wa.me
-  const intl = digits.startsWith("0") && digits.length === 11 ? `2${digits}` : digits;
-  return `https://wa.me/${intl}`;
-}
 
 export function Footer({ settings: s }: { settings: SiteContent["settings"] }) {
   const socials = [

@@ -7,6 +7,7 @@ import { CTASection } from "@/components/cta-section";
 import { Reveal } from "@/components/reveal";
 import { getTestimonials } from "@/lib/content";
 import { getSiteContent } from "@/lib/site-content";
+import { SchoolCard } from "@/components/school-card";
 
 export const metadata: Metadata = {
   title: "Success Stories — School Case Studies & Student Wins",
@@ -18,6 +19,10 @@ export const revalidate = 60;
 export default async function SuccessStoriesPage() {
   const [testimonials, content] = await Promise.all([getTestimonials(), getSiteContent()]);
   const p = content.stories;
+  const schools = content.caseStudies.items.filter((sc) => sc.school);
+  const featured = schools.filter((sc) => sc.featured);
+  const others = schools.filter((sc) => !sc.featured);
+  const caseStudies = schools.filter((sc) => sc.challenge || sc.solution || sc.impact);
   const parents = testimonials.filter((t) => t.type === "Parent");
   const leaders = testimonials.filter((t) => t.type === "Principal");
   const students = testimonials.filter((t) => t.type === "Student");
@@ -26,16 +31,34 @@ export default async function SuccessStoriesPage() {
     <>
       <PageHero eyebrow={p.hero.eyebrow} title={p.hero.title} subtitle={p.hero.subtitle} />
 
+      {/* All partner schools — featured first */}
+      {schools.length > 0 && (
+        <section className="container-x py-16">
+          <SectionHeading eyebrow={p.schools.eyebrow} title={p.schools.title} subtitle={p.schools.subtitle} />
+          {featured.length > 0 && (
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              {featured.map((sc) => <SchoolCard key={sc.id} s={sc} featured />)}
+            </div>
+          )}
+          {others.length > 0 && (
+            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {others.map((sc) => <SchoolCard key={sc.id} s={sc} />)}
+            </div>
+          )}
+        </section>
+      )}
+
       {/* School case studies */}
+      {caseStudies.length > 0 && (
       <section className="container-x py-16">
         <SectionHeading eyebrow={p.caseStudies.eyebrow} title={p.caseStudies.title} subtitle={p.caseStudies.subtitle} />
         <div className="mt-12 space-y-8">
-          {content.caseStudies.items.map((c) => (
+          {caseStudies.map((c) => (
             <Reveal key={c.id}>
               <div className="card-surface overflow-hidden p-0">
                 <div className="flex flex-col gap-1 bg-gradient-to-r from-brand-600 to-grape-600 p-7 text-white sm:flex-row sm:items-center sm:justify-between">
                   <h3 className="text-2xl font-extrabold">{c.school}</h3>
-                  <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">{c.students}</span>
+                  {c.students && <span className="rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold">{c.students}</span>}
                 </div>
                 <div className="grid gap-6 p-7 md:grid-cols-3">
                   <Block label="Challenge" value={c.challenge} />
@@ -57,6 +80,7 @@ export default async function SuccessStoriesPage() {
           ))}
         </div>
       </section>
+      )}
 
       {/* Student stories */}
       <section className="bg-gradient-to-b from-white to-brand-50/40 py-16">
